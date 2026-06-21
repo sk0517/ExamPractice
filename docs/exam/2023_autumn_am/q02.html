@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問2 - 2023年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2023年秋期 問2</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">基礎理論（応用数学・データ分析）</span>
+      <span class="tag">主成分分析</span><span class="tag">多変量解析</span><span class="tag">次元削減</span><span class="tag">データ分析手法</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>複数の変数をもつデータに対する分析手法の記述のうち、主成分分析はどれか。</p>
+<p>ア　変数に共通して影響を与える新たな変数を計算して、データの背後にある構造を取得する方法<br />
+イ　変数の値からほかの変数の値を予測して、データがもつ変数間の関連性を確認する方法<br />
+ウ　変数の値が互いに類似するものを集めることによって、データを分類する方法<br />
+エ　変数を統合した新たな変数を使用して、データがもつ変数の数を減らす方法</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>エ</strong>：変数を統合した新たな変数を使用して、データがもつ変数の数を減らす方法</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">共通して影響を与える新たな変数を計算し背後の構造を取得</td>
+<td style="text-align: left;">因子分析の説明に近い。因子分析はデータの背後にある潜在的な共通因子を見つけ出す手法であり、主成分分析（データから主成分を作る方向）とはアプローチが逆</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">他の変数の値を予測して関連性を確認</td>
+<td style="text-align: left;">回帰分析の説明。主成分分析は予測ではなく次元削減・構造の要約が目的</td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">値が互いに類似するものを集めて分類</td>
+<td style="text-align: left;">クラスター分析の説明。主成分分析はデータの分類ではなく、変数の統合による情報の圧縮が目的</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>エ</strong></td>
+<td style="text-align: left;"><strong>変数を統合した新たな変数を使用してデータの変数の数を減らす</strong></td>
+<td style="text-align: left;"><strong>正解。主成分分析は多数の変数（次元）を、情報量をできるだけ保持したまま少数の主成分（合成変数）に統合し、次元削減を行う手法</strong></td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「複数の変数をもつデータ」「分析手法」「主成分分析」が手がかり。選択肢はいずれも多変量解析の代表的手法（主成分分析・回帰分析・クラスター分析・因子分析）の説明になっている。</li>
+<li>主成分分析の基本的な目的を確認する。</li>
+<li>主成分分析は、相関のある多数の変数を、互いに無相関な少数の合成変数（主成分）に変換し、元データの情報（分散）をできるだけ保持しながら次元を削減する手法である。</li>
+<li>各選択肢がどの分析手法を説明しているかを特定する。</li>
+<li>ア：「背後にある構造」「共通して影響を与える新たな変数」という表現は、観測変数の背後にある潜在因子を抽出する<strong>因子分析</strong>の説明に該当する。</li>
+<li>イ：「他の変数の値を予測」は<strong>回帰分析</strong>の説明。</li>
+<li>ウ：「類似するものを集めて分類」は<strong>クラスター分析</strong>の説明。</li>
+<li>主成分分析と因子分析の違いに着目する。</li>
+<li>主成分分析：データ（観測変数）→主成分（結果）という向きで、分散の最大化により新しい合成変数を作る。</li>
+<li>因子分析：潜在因子（原因）→データ（結果）という向きで、データの背後にある共通因子を推定する。</li>
+<li>したがって「背後にある構造を取得」という記述（ア）は主成分分析ではなく因子分析の特徴である点に注意する。</li>
+<li>エの記述「変数を統合した新たな変数を使用して、変数の数を減らす」は、主成分分析の本質である次元削減（次元圧縮）と完全に一致する。</li>
+<li>以上より、主成分分析の説明として最も適切な<strong>エ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q01.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q03.html" class="nav-btn">次の問題 →</a>
+    </div>
+    <p class="citation">出典：2023年度 秋期 応用情報技術者試験 午前 問2（IPA）</p>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

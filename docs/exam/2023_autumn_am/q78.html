@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問78 - 2023年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2023年秋期 問78</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">法務（著作権法）</span>
+      <span class="tag">著作権法</span><span class="tag">プログラムの著作物</span><span class="tag">同一性保持権</span><span class="tag">適法行為</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>プログラムの著作物について、著作権法上、適法である行為はどれか。</p>
+<p>ア　海賊版を複製したプログラムと事前に知りながら入手し、業務で使用した。<br />
+イ　業務処理用に購入したプログラムを複製し、社内教育用として各部門に配布した。<br />
+ウ　職務著作のプログラムを、作成した担当者が独断で複製し、他社に貸与した。<br />
+エ　処理速度を向上させるために、購入したプログラムを改変した。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>エ</strong>：処理速度を向上させるために、購入したプログラムを改変した。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">海賊版と知りながら入手し業務で使用</td>
+<td style="text-align: left;">著作権を侵害して作成された複製物であることを知りながら、それを業務上利用する行為は、著作権法上、著作権侵害行為とみなされる違法な行為</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">購入したプログラムを複製し社内教育用に各部門へ配布</td>
+<td style="text-align: left;">プログラムの著作物を許諾なく複製し、配布（頒布）する行為は、著作権者に専属する複製権・頒布権の侵害にあたる違法な行為</td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">職務著作のプログラムを担当者が独断で複製し他社に貸与</td>
+<td style="text-align: left;">業務上作成されたプログラム（職務著作）の著作権は、原則として法人に帰属する。作成した担当者個人は著作権者ではないため、無断で複製・貸与する行為は法人の著作権（複製権・貸与権）を侵害する違法な行為</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>エ</strong></td>
+<td style="text-align: left;"><strong>処理速度向上のために購入したプログラムを改変</strong></td>
+<td style="text-align: left;"><strong>正解。著作権法第20条第2項第3号により、「プログラムの著作物を電子計算機においてより効果的に利用し得るようにするために必要な改変」には、著作者人格権の一つである同一性保持権が適用されないとされている。処理速度を向上させるための修正はこれに該当し、著作権者に無断で行っても適法な行為とされる</strong></td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「プログラムの著作物」「著作権法上、適法である行為」が手がかりとなる。選択肢には、典型的な著作権侵害行為（海賊版の使用、無断複製・配布、無断貸与）と、著作権法上明示的に認められている例外的な改変行為が並んでいる。</li>
+<li>著作権法における原則を確認する。</li>
+<li>プログラムの著作物について、著作権者に無断で複製や改変（翻案）を行うことは、原則として著作権侵害にあたる（著作権法第21条、第27条）。また、著作者人格権の一つである同一性保持権により、著作物を無断で改変されない権利が著作者に認められている（著作権法第20条第1項）。</li>
+<li>著作権法における同一性保持権の例外規定を確認する。</li>
+<li>著作権法第20条第2項第3号では、「特定の電子計算機においては利用し得ないプログラムの著作物を当該電子計算機において利用し得るようにするため」、又は「プログラムの著作物を電子計算機においてより効果的に利用し得るようにするために必要な改変」には、同一性保持権を適用しないと規定されている。</li>
+<li>この「より効果的に利用し得るようにするために必要な改変」には、処理速度を向上させるための修正や、機能の追加などが該当するとされている。</li>
+<li>他の選択肢が、いずれも著作権侵害（違法行為）に該当することを確認する。</li>
+<li>ア：著作権侵害により作成された複製物であることを知りながら業務で使用する行為は、著作権侵害行為とみなされる（著作権法第113条）。</li>
+<li>イ：プログラムの複製・配布（頒布）には著作権者の許諾が必要であり、無断で行うと複製権・頒布権の侵害となる。</li>
+<li>ウ：職務著作のプログラムの著作権は原則として法人に帰属するため、作成した担当者個人が無断で複製・貸与する行為は、法人の著作権（複製権・貸与権）を侵害する。</li>
+<li>「処理速度を向上させるために、購入したプログラムを改変した」という行為が、著作権法第20条第2項第3号に定める同一性保持権の例外規定に該当し、著作権者の許諾なく行っても適法であることを確認する。</li>
+<li>以上より、<strong>エ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q77.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q79.html" class="nav-btn">次の問題 →</a>
+    </div>
+    <p class="citation">出典：2023年度 秋期 応用情報技術者試験 午前 問78（IPA）</p>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

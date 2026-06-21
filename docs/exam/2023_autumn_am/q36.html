@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問36 - 2023年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2023年秋期 問36</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">セキュリティ（パスワードクラック手法）</span>
+      <span class="tag">レインボーテーブル攻撃</span><span class="tag">パスワードクラック</span><span class="tag">ハッシュ値</span><span class="tag">パスワード認証</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>パスワードクラック手法の一種である、レインボーテーブル攻撃に該当するものはどれか。</p>
+<p>ア　何らかの方法で事前に利用者IDと平文のパスワードのリストを入手しておき、複数のシステム間で使い回されている利用者IDとパスワードの組みを狙って、ログインを試行する。<br />
+イ　パスワードに成り得る文字列の全てを用いて、総当たりでログインを試行する。<br />
+ウ　平文のパスワードとハッシュ値をチェーンによって管理するテーブルを準備しておき、それを用いて、不正に入手したハッシュ値からパスワードを解読する。<br />
+エ　利用者の誕生日、電話番号などの個人情報を言葉巧みに聞き出して、パスワードを類推する。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：平文のパスワードとハッシュ値をチェーンによって管理するテーブルを準備しておき、それを用いて、不正に入手したハッシュ値からパスワードを解読する。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">事前入手した利用者ID・パスワードの組みを複数システムで使い回す</td>
+<td style="text-align: left;">これはパスワードリスト攻撃の説明。あるサービスから漏えいしたID・パスワードの組みを使って、他のサービスへの不正ログインを試みる手法であり、レインボーテーブルとは異なる</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">パスワードに成り得る全文字列で総当たりログイン</td>
+<td style="text-align: left;">これはブルートフォース攻撃（総当たり攻撃）の説明であり、レインボーテーブルのような事前計算テーブルを使う手法とは異なる</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>平文とハッシュ値をチェーンで管理するテーブルでハッシュ値から解読</strong></td>
+<td style="text-align: left;"><strong>正解。レインボーテーブルは、ハッシュ関数と還元関数を繰り返し適用して生成した「平文→ハッシュ値→平文→…」というチェーンを大量に保持したテーブルであり、不正に入手したパスワードのハッシュ値から、対応する平文のパスワードを高速に逆引きするために使用される</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">誕生日や電話番号などの個人情報からパスワードを類推</td>
+<td style="text-align: left;">これはソーシャルエンジニアリングの一種（個人情報の聞き出しによるパスワード推測）であり、ハッシュ値の解析を伴うレインボーテーブル攻撃とは異なる手法</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「パスワードクラック手法の一種」「レインボーテーブル攻撃」が手がかりとなる。選択肢にはレインボーテーブル攻撃と混同されやすい複数のパスワード攻撃手法（パスワードリスト攻撃、ブルートフォース攻撃、ソーシャルエンジニアリング）が並んでいる。</li>
+<li>レインボーテーブルの基本的な仕組みを確認する。</li>
+<li>パスワードは通常、平文ではなくハッシュ関数で変換されたハッシュ値としてシステムに保存される。攻撃者がそのハッシュ値を不正に入手しても、ハッシュ関数は一方向性の性質を持つため、直接元のパスワードに戻すことはできない。</li>
+<li>レインボーテーブルは、あらかじめ「ハッシュ関数」と「還元関数（ハッシュ値から別の平文候補を生成する関数）」を交互に繰り返し適用することで、大量の「平文→ハッシュ値」の対応をチェーン状にまとめた事前計算済みのテーブルである。実際のテーブルには各チェーンの先頭の平文と末尾のハッシュ値のみを格納しておくことで、ストレージを節約しつつ高速な逆引きを可能にしている。</li>
+<li>レインボーテーブルを使った攻撃の流れを確認する。</li>
+<li>攻撃者は、不正に入手したハッシュ値を、レインボーテーブル内のチェーンの末尾ハッシュ値と照合し、一致すればそのチェーンをたどることで、元の平文パスワードを特定する。</li>
+<li>他の選択肢が指す攻撃手法との違いを確認する。</li>
+<li>ア：事前に入手した既知のID・パスワードの組みを複数サービスで試す手法はパスワードリスト攻撃。</li>
+<li>イ：考えられる全ての文字列を逐一試す手法はブルートフォース（総当たり）攻撃であり、事前計算テーブルを用いる点でレインボーテーブル攻撃とは異なる。</li>
+<li>エ：個人情報を聞き出してパスワードを推測する手法はソーシャルエンジニアリングの一種。</li>
+<li>「平文のパスワードとハッシュ値をチェーンで管理するテーブル」「ハッシュ値からパスワードを解読」という記述が、レインボーテーブル攻撃の仕組みと完全に一致することを確認する。</li>
+<li>以上より、<strong>ウ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q35.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q37.html" class="nav-btn">次の問題 →</a>
+    </div>
+    <p class="citation">出典：2023年度 秋期 応用情報技術者試験 午前 問36（IPA）</p>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

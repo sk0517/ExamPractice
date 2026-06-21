@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問52 - 2023年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2023年秋期 問52</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">マネジメント系</span>
+      <span class="tag">プロジェクトマネジメント（EVM）</span>
+      <span class="tag">EVM</span><span class="tag">アーンドバリューマネジメント</span><span class="tag">スケジュール差異</span><span class="tag">PV</span><span class="tag">EV</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>システム開発のプロジェクトにおいて、EVMを活用したパフォーマンス管理をしている。開発途中のある時点でEV－PVの値が負であるとき、どのような状況を示しているか。</p>
+<p>ア　スケジュール効率が、計画よりも良い。<br />
+イ　プロジェクトの完了が、計画よりも遅くなる。<br />
+ウ　プロジェクトの進捗が、計画よりも遅れている。<br />
+エ　プロジェクトの進捗が、計画よりも進んでいる。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：プロジェクトの進捗が、計画よりも遅れている。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">スケジュール効率が計画より良い</td>
+<td style="text-align: left;">スケジュール効率（SPI=EV/PV）が良い、つまり1を超えるのはEV&gt;PVの場合であり、EV-PVが負（EV&lt;PV）のときは効率が悪い状態を示すため誤り</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">プロジェクトの完了が計画より遅くなる</td>
+<td style="text-align: left;">EV-PVは「ある時点での」進捗の遅れ・進みを示す指標であり、これだけでプロジェクト全体の完了時期がどうなるかまでを直接的に断定することはできない（完了予測にはSPIやEAC等の追加的な分析が必要）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>プロジェクトの進捗が計画より遅れている</strong></td>
+<td style="text-align: left;"><strong>正解。SV（スケジュール差異）＝EV－PVであり、この値が負（マイナス）であるということは、現時点で完了済みの作業に対する出来高（予算換算値）が、計画上その時点までに完了しているはずの予算（PV）よりも少ないことを意味し、計画よりも進捗が遅れていると判断できる</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">プロジェクトの進捗が計画より進んでいる</td>
+<td style="text-align: left;">EV-PVが負の場合はEV&lt;PVであり、進捗が進んでいるのではなく遅れている状態を示すため、記述が逆であり誤り</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>EVM（アーンドバリューマネジメント）における主要な指標を整理する。</li>
+<li>PV（Planned Value：計画価値）：計画上、ある時点までに完了しているべき作業の予算（出来高計画値）。</li>
+<li>EV（Earned Value：出来高）：ある時点までに実際に完了した作業の予算換算値（出来高実績値）。</li>
+<li>AC（Actual Cost：実コスト）：ある時点までに実際に投入した総コスト。</li>
+<li>SV（スケジュール差異：Schedule Variance）の定義を確認する。</li>
+<li>SV＝EV－PVという計算式で求められ、計画と実績のスケジュール面での差異を表す指標である。</li>
+<li>SVの値の符号と意味の対応関係を確認する。</li>
+<li>SVが正（プラス）の場合：EV&gt;PVであり、計画よりも多くの作業が完了している、すなわち進捗が計画より進んでいることを意味する。</li>
+<li>SVが負（マイナス）の場合：EV&lt;PVであり、計画上完了しているべき作業量（予算換算）に対して、実際に完了した作業量が少ない、すなわち進捗が計画より遅れていることを意味する。</li>
+<li>問題文の条件「EV－PVの値が負である」を、上記の関係に当てはめる。</li>
+<li>EV－PV＜0、つまりSVが負の状態であり、これは進捗の遅れを示す状態に該当する。</li>
+<li>他の選択肢を検証する。</li>
+<li>ア：スケジュール効率（SPI=EV/PV）が「計画より良い」とは1より大きい状態を指すが、EV&lt;PVのときはSPIも1未満となるため、効率が良いという記述は誤り。</li>
+<li>イ：完了時期そのものへの影響は、SV単独では断定できない（より詳細な予測指標が必要）ため、この問いの直接的な答えとしては不適切。</li>
+<li>エ：「進んでいる」は符号の解釈が逆であり誤り。</li>
+<li>以上より、EV－PVが負であるときの状況として<strong>ウ（プロジェクトの進捗が、計画よりも遅れている）</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q51.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q53.html" class="nav-btn">次の問題 →</a>
+    </div>
+    <p class="citation">出典：2023年度 秋期 応用情報技術者試験 午前 問52（IPA）</p>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

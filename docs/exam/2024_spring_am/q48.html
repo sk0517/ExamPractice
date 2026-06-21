@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問48 - 2024年春期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2024年春期 問48</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">ソフトウェア開発管理技術（開発プロセス・手法・リーンソフトウェア開発）</span>
+      <span class="tag">リーンソフトウェア開発</span><span class="tag">バリューストリームマップ</span><span class="tag">ストーリーカード</span><span class="tag">スプリントバックログ</span><span class="tag">バーンダウンチャート</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>リーンソフトウェア開発において，ソフトウェア開発のプロセスとプロセスの所要時間とを可視化し，ボトルネックや無駄がないかどうかを確認するのに用いるものはどれか。</p>
+<p>ア　ストーリーカード　　イ　スプリントバックログ<br />
+ウ　バーンダウンチャート　　エ　バリューストリームマップ</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>エ</strong>：バリューストリームマップ</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">ストーリーカード</td>
+<td style="text-align: left;">アジャイル開発において、個々のユーザーストーリー（要求事項）を記述・管理するためのカードであり、開発プロセス全体の所要時間や無駄の可視化を目的とするものではない</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">スプリントバックログ</td>
+<td style="text-align: left;">スクラムにおいて、特定のスプリント期間中に実施するタスクの一覧であり、タスク管理が目的であって、プロセス全体の流れや所要時間の分析には用いられない</td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">バーンダウンチャート</td>
+<td style="text-align: left;">プロジェクトやスプリントにおける残作業量の推移を示すグラフであり、進捗管理には有用だが、プロセスごとの所要時間やボトルネックの特定を目的とするものではない</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>エ</strong></td>
+<td style="text-align: left;"><strong>バリューストリームマップ</strong></td>
+<td style="text-align: left;"><strong>正解。もともとトヨタ生産方式で用いられていた手法で、顧客要求の受入れから機能完成までの一連のプロセスを横に並べ、その下に価値の付加に費やされた時間とそれ以外（待ち時間など）の時間を分けて図示するフローチャートである。これにより、付加価値を生まないムダな時間や工程上のボトルネックを可視化し、開発プロセス改善の手掛かりとすることができる</strong></td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「リーンソフトウェア開発」において「ソフトウェア開発のプロセスとプロセスの所要時間を可視化し、ボトルネックや無駄の有無を確認する」ために用いるものを選ぶ問題である。</li>
+<li>リーンソフトウェア開発の基本的な考え方を確認する。</li>
+<li>リーンソフトウェア開発は、トヨタ生産方式を一般化したリーン生産方式の考え方をソフトウェア開発に適用し、ムダのない開発プロセスを目指すアジャイル開発の方法論の一つである。</li>
+<li>各選択肢の本来の用途を確認する。</li>
+<li>ストーリーカード：個々のユーザーストーリー（要求事項）を記述するカードであり、要件管理が目的。</li>
+<li>スプリントバックログ：スクラムにおける特定スプリント期間中のタスク一覧であり、タスク管理が目的。</li>
+<li>バーンダウンチャート：残作業量の時間推移を表すグラフであり、進捗状況の把握が目的。</li>
+<li>「プロセスの所要時間の可視化」「ボトルネックや無駄の確認」というキーワードに着目する。</li>
+<li>これらのキーワードは、プロセス全体の流れと各工程にかかる時間（付加価値を生む時間とそうでない時間）を図示し、改善点を見つけ出す手法であるバリューストリームマップの目的と完全に一致する。</li>
+<li>バリューストリームマップの具体的な内容を確認する。</li>
+<li>顧客要求の受け入れから、その要求を満たす機能が完成するまでの一連のプロセスを時系列に並べ、各プロセスにかかる時間を「価値を生む時間」と「それ以外（待ち時間・ムダな時間）」に分けて視覚化することで、ボトルネックとなっている工程や削減すべきムダを特定できる。</li>
+<li>以上より、プロセスの所要時間とボトルネック・無駄を可視化する目的に最も合致する<strong>エ（バリューストリームマップ）</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q47.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q49.html" class="nav-btn">次の問題 →</a>
+    </div>
+    <p class="citation">出典：2024年度 春期 応用情報技術者試験 午前 問48（IPA）</p>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問54 - 2024年春期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2024年春期 問54</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">マネジメント系</span>
+      <span class="tag">プロジェクトマネジメント（意思決定・期待金額価値）</span>
+      <span class="tag">期待金額価値</span><span class="tag">EMV</span><span class="tag">デシジョンツリー</span><span class="tag">投資判断</span><span class="tag">意思決定理論</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>工場の生産能力を増強する方法として，新規システムを開発する案と既存システムを改修する案とを検討している。次の条件で，期待金額価値の高い案を採用するとき，採用すべき案と期待金額価値との組合せのうち，適切なものはどれか。ここで，期待金額価値は，収入と投資額との差で求める。</p>
+<p>〔条件〕</p>
+<ul>
+<li>新規システムを開発する場合の投資額は100億円であって，既存システムを改修する場合の投資額は50億円である。</li>
+<li>需要が拡大する確率は70%であって，需要が縮小する確率は30%である。</li>
+<li>新規システムを開発した場合，需要が拡大したときは180億円の収入が見込まれ，需要が縮小したときは50億円の収入が見込まれる。</li>
+<li>既存システムを改修した場合，需要が拡大したときは120億円の収入が見込まれ，需要が縮小したときは40億円の収入が見込まれる。</li>
+<li>他の条件は考慮しない。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: left;">採用すべき案</th>
+<th style="text-align: center;">期待金額価値（億円）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ア</td>
+<td style="text-align: left;">既存システムの改修</td>
+<td style="text-align: center;">46</td>
+</tr>
+<tr>
+<td style="text-align: center;">イ</td>
+<td style="text-align: left;">既存システムの改修</td>
+<td style="text-align: center;">96</td>
+</tr>
+<tr>
+<td style="text-align: center;">ウ</td>
+<td style="text-align: left;">新規システムの開発</td>
+<td style="text-align: center;">41</td>
+</tr>
+<tr>
+<td style="text-align: center;">エ</td>
+<td style="text-align: left;">新規システムの開発</td>
+<td style="text-align: center;">130</td>
+</tr>
+</tbody>
+</table></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ア</strong>：既存システムの改修，期待金額価値46億円</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>ア</strong></td>
+<td style="text-align: left;"><strong>既存システムの改修，46億円</strong></td>
+<td style="text-align: left;"><strong>正解。既存システム改修のEMV＝（120×0.7＋40×0.3）－50＝（84＋12）－50＝96－50＝46億円。新規システム開発のEMV＝（180×0.7＋50×0.3）－100＝（126＋15）－100＝141－100＝41億円。bash_toolでの計算により、46億円＞41億円となり、既存システムの改修を採用すべきと判断される（IPA準拠の解答速報でも正解はアと確認）</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">既存システムの改修，96億円</td>
+<td style="text-align: left;">期待収入（96億円）から投資額（50億円）を差し引く計算を行わず、収入の期待値そのものを期待金額価値としてしまった場合に生じる誤り</td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">新規システムの開発，41億円</td>
+<td style="text-align: left;">EMVの値（41億円）自体は新規システム開発について正しく計算されているが、新規システムのEMV（41億円）は既存システム改修のEMV（46億円）より低いため、採用すべき案としては不適切</td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">新規システムの開発，130億円</td>
+<td style="text-align: left;">投資額の差し引きを行わない、または計算過程に誤りがある場合に生じやすい値であり、正しいEMV計算（41億円）とは一致しない</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>期待金額価値（EMV：Expected Monetary Value）の定義を確認する。</li>
+<li>期待金額価値＝収入の期待値－投資額、という式で求められる。収入の期待値は、各シナリオ（需要拡大・需要縮小）の収入にその発生確率を乗じて合計した値である。</li>
+<li>新規システム開発のEMVを計算する。</li>
+<li>収入の期待値＝180億円×0.7＋50億円×0.3＝126億円＋15億円＝141億円</li>
+<li>EMV＝141億円－100億円（投資額）＝41億円</li>
+<li>既存システム改修のEMVを計算する。</li>
+<li>収入の期待値＝120億円×0.7＋40億円×0.3＝84億円＋12億円＝96億円</li>
+<li>EMV＝96億円－50億円（投資額）＝46億円</li>
+<li>bash_toolで両案のEMVを実際に計算し、上記の手計算結果と一致することを確認した（新規システム開発：41億円、既存システム改修：46億円）。</li>
+<li>期待金額価値の高い案を比較する。</li>
+<li>既存システムの改修（46億円）＞新規システムの開発（41億円）であるため、期待金額価値の観点からは既存システムの改修を採用すべきと判断される。</li>
+<li>以上の計算検証から、採用すべき案は「既存システムの改修」、その期待金額価値は「46億円」である<strong>ア</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q53.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q55.html" class="nav-btn">次の問題 →</a>
+    </div>
+    <p class="citation">出典：2024年度 春期 応用情報技術者試験 午前 問54（IPA）</p>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

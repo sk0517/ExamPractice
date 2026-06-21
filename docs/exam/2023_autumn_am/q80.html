@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問80 - 2023年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2023年秋期 問80</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">法務（労働関連法規）</span>
+      <span class="tag">労働者派遣契約</span><span class="tag">出向</span><span class="tag">指揮命令関係</span><span class="tag">雇用関係</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>図は、企業と労働者の関係を表している。企業Bと労働者Cの関係に関する記述のうち、適切なものはどれか。</p>
+<p>〔図の構成〕企業Aと労働者Cは雇用関係。企業Aと企業Bは"契約"関係。</p>
+<p>ア　"契約"が請負契約で、企業Aが受託者、企業Bが委託者であるとき、企業Bと労働者Cとの間には、指揮命令関係が生じる。<br />
+イ　"契約"が出向にかかわる契約で、企業Aが企業Bに労働者Cを出向させたとき、企業Bと労働者Cとの間には指揮命令関係が生じる。<br />
+ウ　"契約"が労働者派遣契約で、企業Aが派遣元、企業Bが派遣先であるとき、企業Bと労働者Cの間にも、雇用関係が生じる。<br />
+エ　"契約"が労働者派遣契約で、企業Aが派遣元、企業Bが派遣先であるとき、企業Bに労働者Cが出向しているといえる。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>イ</strong>：“契約”が出向にかかわる契約で、企業Aが企業Bに労働者Cを出向させたとき、企業Bと労働者Cとの間には指揮命令関係が生じる。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">請負契約で企業Bと労働者Cに指揮命令関係が生じる</td>
+<td style="text-align: left;">請負契約においては、注文者（委託者）は請負労働者に対して直接の指揮命令を行うことができない。請負事業主（受託者）が自ら雇用する労働者を直接指揮監督するのが請負の基本構造であり、委託者である企業Bが労働者Cに直接指揮命令を行うと、いわゆる「偽装請負」（違法な労働者派遣状態）とみなされる。この記述は誤り</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>イ</strong></td>
+<td style="text-align: left;"><strong>出向にかかわる契約で、企業Bと労働者Cに指揮命令関係が生じる</strong></td>
+<td style="text-align: left;"><strong>正解。出向（在籍出向）の場合、出向元企業（A）との雇用契約を維持したまま、出向先企業（B）の指揮命令を受けて働く。すなわち、出向先である企業Bと労働者Cとの間には、雇用関係はないものの指揮命令関係が生じる</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">労働者派遣契約で企業Bと労働者Cに雇用関係も生じる</td>
+<td style="text-align: left;">労働者派遣の三者関係では、雇用契約は派遣元（企業A）と労働者（C）の間にのみ存在し、派遣先（企業B）と労働者Cとの間には雇用関係は生じず、指揮命令関係のみが生じる。この記述は誤り</td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">労働者派遣契約のとき、企業Bに労働者Cが出向しているといえる</td>
+<td style="text-align: left;">労働者派遣と出向は、法的に異なる枠組みの契約形態である。労働者派遣は労働者派遣法に基づく三者関係（雇用契約・労働者派遣契約・指揮命令関係）であり、出向（在籍出向）とは異なる制度であるため、労働者派遣契約に基づく就業を「出向している」と表現するのは不適切。この記述は誤り</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題図の構造を整理する。</li>
+<li>企業Aと労働者Cの間には「雇用関係」がある。</li>
+<li>企業Aと企業Bの間には何らかの「契約」関係がある。</li>
+<li>問題は、この「契約」の種類（請負、出向、労働者派遣）によって、企業Bと労働者Cの関係（指揮命令関係の有無、雇用関係の有無）がどう変わるかを問うている。</li>
+<li>請負契約の場合の関係を確認する。</li>
+<li>請負契約では、受託者（請負事業主）が自ら雇用する労働者を直接指揮監督し、業務を自己の業務として独立して処理する必要がある。委託者（注文者）が請負労働者に直接指揮命令を行うことは認められておらず、行えば「偽装請負」として違法となる。したがって、選択肢アの「企業Bと労働者Cとの間に指揮命令関係が生じる」という記述は誤り。</li>
+<li>出向（在籍出向）の場合の関係を確認する。</li>
+<li>在籍出向とは、労働者が出向元企業（A）との雇用契約を維持したまま、出向先企業（B）でも勤務する形態である。出向中、労働者は出向先企業の指揮命令を受けて働くため、出向先企業（B）と労働者（C）との間には、雇用関係はないものの指揮命令関係が生じる。</li>
+<li>労働者派遣契約の場合の関係を確認する。</li>
+<li>労働者派遣は、①派遣元（A）・労働者（C）間の雇用契約関係、②派遣元（A）・派遣先（B）間の労働者派遣契約関係、③派遣先（B）・労働者（C）間の指揮命令関係という三者関係で構成される。派遣先（企業B）と労働者（C）との間には、雇用関係は生じず、指揮命令関係のみが生じる。したがって、選択肢ウの「企業Bと労働者Cの間にも雇用関係が生じる」という記述は誤り。</li>
+<li>労働者派遣と出向の違いを確認する。</li>
+<li>労働者派遣と出向は法的に異なる制度であり、労働者派遣契約に基づく就業を「出向している」と表現することは適切ではない。したがって、選択肢エの記述も誤り。</li>
+<li>出向の場合に企業Bと労働者Cとの間に指揮命令関係が生じるという記述（選択肢イ）が、出向の法的構造と一致することを確認する。</li>
+<li>以上より、<strong>イ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q79.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <span class="nav-btn disabled">次の問題 →</span>
+    </div>
+    <p class="citation">出典：2023年度 秋期 応用情報技術者試験 午前 問80（IPA）</p>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問8 - 2024年春期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2024年春期 問8</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">コンピュータ構成要素（メモリ・データ転送）</span>
+      <span class="tag">ブロック転送</span><span class="tag">メモリオーバーラップ</span><span class="tag">アドレス</span><span class="tag">方向フラグ</span><span class="tag">CPU</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>同一メモリ空間で，転送元の開始アドレス，転送先の開始アドレス，方向フラグ及び転送語数をパラメータとして指定することによって，データをブロック転送できる機能をもつ CPU がある。図のようにアドレス 1001 から 1004 のデータをアドレス 1003 から 1006 に転送するとき，指定するパラメータとして適切なものはどれか。ここで，転送は開始アドレスから 1 語ずつ行われ，方向フラグに 0 を指定するとアドレスの昇順に，1 を指定するとアドレスの降順に転送を行うものとする。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: center;">転送元の開始アドレス</th>
+<th style="text-align: center;">転送先の開始アドレス</th>
+<th style="text-align: center;">方向フラグ</th>
+<th style="text-align: center;">転送語数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: center;">1001</td>
+<td style="text-align: center;">1003</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: center;">1001</td>
+<td style="text-align: center;">1003</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: center;">1004</td>
+<td style="text-align: center;">1006</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: center;">1004</td>
+<td style="text-align: center;">1006</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+</tr>
+</tbody>
+</table></div>
+  </div>
+
+  <div class="card"><h2 class="section-title">参照画像</h2><div class="md-content"><p><img alt="図8" src="ap_2024_spring_am_q08.png" /></p></div></div>
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>エ</strong>：転送元の開始アドレス1004，転送先の開始アドレス1006，方向フラグ1，転送語数4</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">1001／1003／方向0（昇順）／4語</td>
+<td style="text-align: left;">昇順（1001→1002→1003→1004の順）で転送すると、1003番地への書き込みが先に行われてしまい、その後本来1003番地から読むはずだったデータが上書き後の値になってしまう（上書き事故）。bash_toolによるin-placeシミュレーションでも1005,1006番地の結果が誤りになることを確認</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">1001／1003／方向1（降順）／4語</td>
+<td style="text-align: left;">開始アドレスが1001のままで降順に転送すると、転送元アドレスが1001→1000→999→998と範囲外に進んでしまい、意図したアドレス1001〜1004のデータを正しく転送できない</td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">1004／1006／方向0（昇順）／4語</td>
+<td style="text-align: left;">転送先の開始アドレスは正しいが、昇順で進めると転送元アドレスが1004→1005→1006→1007と本来の範囲を超えて進んでしまい、正しいデータを転送できない</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>エ</strong></td>
+<td style="text-align: left;"><strong>1004／1006／方向1（降順）／4語</strong></td>
+<td style="text-align: left;"><strong>正解。転送元の末尾（1004）と転送先の末尾（1006）から開始し、降順（1004→1003→1002→1001）に1語ずつ転送することで、未読みのデータを上書きする前に読み出すことができ、bash_toolでのin-placeシミュレーションでも正しい最終結果（1003←a, 1004←b, 1005←c, 1006←d）が得られることを確認</strong></td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>転送元・転送先のアドレス範囲を整理する。</li>
+<li>転送元：1001〜1004番地のデータを、転送先：1003〜1006番地に移動する。両者のアドレス範囲が1003・1004で重なっている（オーバーラップ）点に注意が必要である。</li>
+<li>オーバーラップする転送における注意点を確認する。</li>
+<li>転送元と転送先のアドレス範囲が重なる場合、転送順序を誤ると、まだ読み出していない元データを先に上書きしてしまう「データ破壊」が起こり得る。</li>
+<li>bash_toolで各選択肢のパラメータをin-place（同一メモリ空間内）でシミュレーションし、実際にどのアドレスにどの値が書き込まれるかを1ステップずつ検証する。</li>
+<li>ア（昇順）：1001→1003転送後、1003→1005の転送時には既に1003番地が書き換わっており、誤った値が転送されることを確認。</li>
+<li>イ：転送元アドレスが範囲外（1000未満）に進んでしまい、正しいデータが得られないことを確認。</li>
+<li>ウ：転送元アドレスが範囲を超えて進み、誤った値が転送されることを確認。</li>
+<li>エ（降順、転送元1004・転送先1006から開始）：1004→1006、1003→1005、1002→1004、1001→1003の順に転送され、全てのステップで上書き前のデータを正しく読み出せることを確認。</li>
+<li>正しい転送順序の理由を整理する。</li>
+<li>転送先のアドレスが転送元より大きい（後ろにずれる）ため、末尾（大きいアドレス）から先に転送し、徐々に若いアドレスへ進める（降順）ことで、上書きされる前に必要なデータを読み出せる。</li>
+<li>最終結果を確認する。</li>
+<li>bash_toolでのシミュレーション結果より、エのパラメータのみが意図した転送結果（1003←1001の値，1004←1002の値，1005←1003の値，1006←1004の値）と完全に一致した。</li>
+<li>以上の計算検証から、転送元1004・転送先1006・方向フラグ1（降順）・転送語数4である<strong>エ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q07.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q09.html" class="nav-btn">次の問題 →</a>
+    </div>
+    <p class="citation">出典：2024年度 春期 応用情報技術者試験 午前 問8（IPA）</p>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

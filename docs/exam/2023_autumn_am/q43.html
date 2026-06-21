@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問43 - 2023年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2023年秋期 問43</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">セキュリティ（ランサムウェア対策）</span>
+      <span class="tag">ランサムウェア</span><span class="tag">WORM</span><span class="tag">バックアップ</span><span class="tag">データ保護</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>PCのストレージ上の重要なデータを保護する方法のうち、ランサムウェア感染による被害の低減に効果があるものはどれか。</p>
+<p>ア　WORM（Write Once Read Many）機能を有するストレージを導入して、そこに重要なデータをバックアップする。<br />
+イ　ストレージをRAID5構成にして、1台のディスク故障時にも重要なデータを利用可能にする。<br />
+ウ　内蔵ストレージを増設して、重要なデータを常時レプリケーションする。<br />
+エ　ネットワーク上のストレージの共有フォルダをネットワークドライブに割り当てて、そこに重要なデータをバックアップする。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ア</strong>：WORM（Write Once Read Many）機能を有するストレージを導入して、そこに重要なデータをバックアップする。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>ア</strong></td>
+<td style="text-align: left;"><strong>WORM機能を有するストレージにバックアップ</strong></td>
+<td style="text-align: left;"><strong>正解。WORM（Write Once Read Many）は一度書き込んだデータを消去・変更できない追記型の記憶方式であり、この機能を持つ不変（イミュータブル）ストレージにバックアップを保存すれば、たとえ攻撃者に管理者権限を奪われても、ランサムウェアによるバックアップデータの暗号化・改ざん・削除を防ぐことができる</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">RAID5構成によるディスク故障対策</td>
+<td style="text-align: left;">RAID5はディスクの物理的な故障に対する可用性向上の技術であり、ランサムウェアによる論理的なデータの暗号化・改ざんには対応できない。ランサムウェアに感染すれば、RAID構成のストレージ上のデータもそのまま暗号化されてしまう</td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">常時レプリケーション</td>
+<td style="text-align: left;">レプリケーション（複製）は、元のデータの変更がほぼリアルタイムで複製先にも反映される仕組みであるため、ランサムウェアによって元データが暗号化されると、その暗号化された状態がそのまま複製先にも伝播してしまい、被害低減の効果が薄い</td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">ネットワークドライブへのバックアップ</td>
+<td style="text-align: left;">ネットワーク上の共有フォルダをドライブとして割り当てている場合、その共有フォルダへの書込み権限を持つ端末がランサムウェアに感染すると、ネットワークドライブ上のバックアップデータ自体も暗号化・改ざんされてしまうリスクがあり、十分な対策とはいえない</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>ランサムウェアの基本的な脅威の性質を確認する。</li>
+<li>ランサムウェアは、感染した端末（およびそこからアクセス可能なストレージ）上のデータを暗号化し、復号と引き換えに金銭を要求するマルウェアである。攻撃者がシステムの管理者権限を奪取するケースもあり、通常の書込み・削除権限を持つストレージは、バックアップデータも含めて暗号化・改ざんされる危険がある。</li>
+<li>「被害の低減に効果がある」ための条件を考える。</li>
+<li>ランサムウェア感染時にもバックアップデータ自体が暗号化・削除されない仕組みであることが、有効な対策の鍵となる。すなわち、データを書き換え不可能な状態で保持できるかどうかが重要なポイントとなる。</li>
+<li>各選択肢を、上記の観点で検証する。</li>
+<li>ア：WORM機能を持つストレージは、一度書き込んだデータの変更・削除が物理的・論理的に不可能であるため、たとえランサムウェアに管理者権限を奪われたとしても、そこに保存したバックアップデータは暗号化・改ざんされることがない。</li>
+<li>イ：RAID5はディスクの物理的な故障に対する冗長性を提供する技術であり、ランサムウェアによる論理的なデータの暗号化（ファイル内容そのものの書き換え）には無力である。</li>
+<li>ウ：常時レプリケーションは、元データの変更を即座に複製先へ反映する仕組みであるため、ランサムウェアによる暗号化もそのまま複製されてしまい、安全なバックアップとして機能しない。</li>
+<li>エ：通常の書込み可能なネットワークドライブとして共有フォルダを利用している場合、その共有フォルダへの書込み権限を持つ端末がランサムウェアに感染すれば、共有フォルダ上のバックアップデータも暗号化される可能性がある。</li>
+<li>「データの書き換えができない」という特性を持つWORM機能のみが、ランサムウェアによるバックアップデータへの攻撃を確実に防げることを確認する。</li>
+<li>以上より、ランサムウェア感染による被害の低減に効果がある方法として<strong>ア</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q42.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q44.html" class="nav-btn">次の問題 →</a>
+    </div>
+    <p class="citation">出典：2023年度 秋期 応用情報技術者試験 午前 問43（IPA）</p>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

@@ -245,6 +245,15 @@ h2.section-title {
 .question-item .q-no { font-weight: 700; color: #1a3a5c; }
 .question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
 
+/* 出典フッター */
+.citation {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 16px;
+}
+
 @media (max-width: 600px) {
   .card { padding: 14px 16px; }
   .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
@@ -270,6 +279,7 @@ def render_question_html(meta, sections, prev_url, next_url):
     category = meta.get("category", "")
     subcategory = meta.get("subcategory", "")
     tags = meta.get("tags", [])
+    citation = f"出典：{meta.get('year', '')}年度 {meta.get('season', '')}期 応用情報技術者試験 午前 問{q_no}（IPA）"
     if isinstance(tags, str):
         tags = [tags]
 
@@ -342,6 +352,7 @@ def render_question_html(meta, sections, prev_url, next_url):
       <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
       {nav_next}
     </div>
+    <p class="citation">{citation}</p>
   </div>
 
 </div>

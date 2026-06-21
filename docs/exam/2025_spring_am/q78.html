@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問78 - 2025年春期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年春期 問78</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">法務（著作権法・生成AI）</span>
+      <span class="tag">著作権法</span><span class="tag">生成AI</span><span class="tag">著作権侵害</span><span class="tag">類似性</span><span class="tag">依拠性</span><span class="tag">文化庁</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>著作権法及び関連法令によれば，生成AIを利用して画像を生成する行為又はその生成物の利用が著作権侵害にあたるか否かに関して，適切な記述はどれか。</p>
+<p>ア　AIが既存の著作権で保護されている画像をデータセットとして学習している場合は，そのAIを利用して画像を生成すると，いかなる場合も著作権侵害になる。<br />
+イ　AIを利用して生成した画像が著作権で保護された既存の画像と類似しており，それを公開した場合，著作権侵害となる可能性がある。<br />
+ウ　AIを利用して生成した画像は，AIが自動的に創作したものであるため，いかなる状況でも著作権の対象外となり，著作権侵害の懸念は生じない。<br />
+エ　AIを利用して生成した画像は，生成した本人の私的使用に限って，利用が認められており，商業利用を行った場合は，いかなる場合も著作権侵害となる。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>イ</strong>：AIを利用して生成した画像が著作権で保護された既存の画像と類似しており，それを公開した場合，著作権侵害となる可能性がある。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><p>文化庁が公表した「AIと著作権に関する考え方」では，生成AIによる生成物の著作権侵害は，AIを使わない通常の創作活動と同様に，<strong>類似性</strong>（生成物が既存の著作物と創作的表現において共通していること）と<strong>依拠性</strong>（生成物が既存の著作物に依拠して作成されたこと）の両方が認められた場合に成立するとされている。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">データセットとして学習している場合，いかなる場合も著作権侵害になる</td>
+<td style="text-align: left;">誤り。学習段階（情報解析目的での利用）は，原則として著作権者の許諾なく行うことができるとされており，既存著作物を学習に用いたという事実だけで，生成物の利用が一律に著作権侵害になるわけではない。実際の侵害判断は，生成・利用段階における<strong>類似性・依拠性</strong>の有無によって行われる</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>イ</strong></td>
+<td style="text-align: left;"><strong>AIを利用して生成した画像が既存の著作物と類似しており，それを公開した場合，著作権侵害となる可能性がある</strong></td>
+<td style="text-align: left;"><strong>正解。生成・利用段階においては，AIを使わない通常の創作活動と同様に著作権法が適用される。生成物が既存の著作物と類似しており（類似性），かつその著作物に依拠して生成されたと認められる場合（依拠性），当該生成物の生成・公開行為は著作権侵害となり得る</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">AIが自動的に創作したものなので，いかなる状況でも著作権の対象外となり，著作権侵害の懸念は生じない</td>
+<td style="text-align: left;">誤り。AIが自律的に生成した画像自体が（人間の創作的関与が乏しい場合に）著作物に該当しないとされる場合があるとしても，それは生成物自体の著作権保護の話であり，既存著作物との類似性・依拠性が認められれば，生成・利用行為が既存著作物の著作権を侵害する可能性は残る</td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">私的使用に限り利用が認められ，商業利用を行った場合はいかなる場合も著作権侵害となる</td>
+<td style="text-align: left;">誤り。私的使用か商業利用かという利用形態の区分と，著作権侵害の成否（類似性・依拠性の有無）は別の論点である。商業利用であっても，既存著作物との類似性・依拠性が認められなければ著作権侵害には当たらない</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>生成AIを利用した画像生成行為，またはその生成物の利用が，著作権法上どのような場合に著作権侵害にあたるかを問う問題である。</li>
+<li>生成AIと著作権の関係を，文化庁が示す「学習段階」と「生成・利用段階」の2つのフェーズに分けて確認する。</li>
+<li>学習段階（情報解析）：AIに既存の著作物を学習データとして読み込ませる段階。原則として，著作権者の許諾なく著作物を利用することができるとされている（必要な限度を超える利用や著作権者の利益を不当に害する場合等は除く）。</li>
+<li>生成・利用段階：AIを使って画像等を生成し，それを公開・販売等する段階。この段階では，AIを使わない通常の創作活動と同様に著作権法が適用される。</li>
+<li>生成・利用段階における著作権侵害の判断基準を確認する。</li>
+<li>類似性：生成物が既存の著作物と，創作的表現において共通している（似ている）こと。</li>
+<li>依拠性：生成物が既存の著作物に依拠して（それをもとにして）作成されたこと。</li>
+<li>これら両方の要件が認められた場合に，著作権侵害（複製権・翻案権侵害等）が成立すると考えられる。</li>
+<li>各選択肢を，上記の判断枠組みと照合する。</li>
+<li>ア：「学習に使っているだけでいかなる場合も侵害」は，学習段階の適法性原則や，生成・利用段階での類似性・依拠性判断という実際の枠組みと整合しない。</li>
+<li>ウ：「AIの自動生成だからいかなる状況でも著作権対象外で侵害の懸念なし」は，生成物が既存著作物と類似・依拠していれば侵害となり得るという実際の判断枠組みと矛盾する。</li>
+<li>エ：「私的使用のみ許され，商業利用はいかなる場合も侵害」は，利用形態（私的／商業）と著作権侵害の成否（類似性・依拠性）を混同した誤った記述である。</li>
+<li>「既存の著作物と類似しており，それを公開した場合，著作権侵害となる<strong>可能性がある</strong>」という，類似性を要件としつつも一律の断定を避けた表現が，実際の判断枠組み（類似性・依拠性の有無による個別判断）と最も整合する<strong>イ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q77.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q79.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

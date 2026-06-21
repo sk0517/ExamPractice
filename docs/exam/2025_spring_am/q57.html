@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問57 - 2025年春期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年春期 問57</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">マネジメント系</span>
+      <span class="tag">サービスマネジメント（継続的改善・目標管理指標）</span>
+      <span class="tag">CSF</span><span class="tag">KGI</span><span class="tag">KPI</span><span class="tag">OKR</span><span class="tag">継続的改善</span><span class="tag">重要成功要因</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>サービスの継続的改善で，改善の達成目標を設定して活動するとき，"サービスの提供やマネジメントの成功に重要な要因"を特定したものを何というか。</p>
+<p>ア　CSF　　イ　KGI　　ウ　KPI　　エ　OKR</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ア</strong>：CSF</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>ア</strong></td>
+<td style="text-align: left;"><strong>CSF（Critical Success Factor：重要成功要因）</strong></td>
+<td style="text-align: left;"><strong>正解。目標達成のために特に重要となる要因・要素を特定したものであり，問題文の「サービスの提供やマネジメントの成功に重要な要因」という記述と一致する</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">KGI（Key Goal Indicator：重要目標達成指標）</td>
+<td style="text-align: left;">企業やサービスが最終的に達成すべき目標そのものを定量的に表す指標であり，「重要な要因」ではなく「達成すべき目標（ゴール）」を表す点が異なる</td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">KPI（Key Performance Indicator：重要業績評価指標）</td>
+<td style="text-align: left;">CSF（重要成功要因）を達成できているかどうかを定量的に測定するための指標であり，「要因」そのものではなく，その達成度を測る数値指標である点が異なる</td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">OKR（Objectives and Key Results：目標と主要な結果）</td>
+<td style="text-align: left;">組織全体やチームの目標（Objectives）と，その達成度を測る主要な結果（Key Results）を組み合わせた目標管理のフレームワークであり，「成功に重要な要因」を特定するものではない</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「改善の達成目標を設定して活動するとき」「サービスの提供やマネジメントの成功に重要な要因を特定したもの」という記述から，目標管理に関連する複数の用語（CSF・KGI・KPI・OKR）のうち，どれが「要因」を指すかを正しく見極める問題である。</li>
+<li>各用語の定義と相互関係を確認する。</li>
+<li>KGI（重要目標達成指標）：最終的に達成すべき目標（ゴール）そのものを表す数値指標。</li>
+<li>CSF（重要成功要因）：KGIを達成するために特に重要となる要因・要素（「何をすべきか」という戦略的なポイント）。</li>
+<li>KPI（重要業績評価指標）：CSFが達成できているかどうかを定量的に測定するための指標（「どれだけ進捗しているか」を表す数値）。</li>
+<li>OKR（目標と主要な結果）：組織やチーム全体の目標（Objectives）と，その達成を測る主要な結果（Key Results）を組み合わせた，独立した目標管理のフレームワーク。</li>
+<li>これらは一般に「KGI（ゴール）→CSF（成功要因）→KPI（成功要因の達成度を測る指標）」という階層関係で整理される。</li>
+<li>問題文の「成功に重要な要因を特定したもの」というフレーズに着目する。</li>
+<li>「要因」という言葉は，KGI（目標そのもの）でもKPI（数値指標）でもなく，目標達成のために重要な「要素・ポイント」を指すCSFの定義と直接一致する。</li>
+<li>他の選択肢が「要因」ではなく「目標」や「指標」「フレームワーク」を指していることを確認する。</li>
+<li>イ（KGI）は「目標（ゴール）」自体，ウ（KPI）は「指標（数値）」，エ（OKR）は「目標管理の枠組み」であり，いずれも「重要な要因の特定」という記述には直接該当しない。</li>
+<li>「成功に重要な要因の特定」という定義と完全に一致する<strong>ア（CSF）</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q56.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q58.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

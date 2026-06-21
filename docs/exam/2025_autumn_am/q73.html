@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問73 - 2025年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年秋期 問73</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">ネットワーク技術（IoT通信技術）</span>
+      <span class="tag">LPWA</span><span class="tag">IoT</span><span class="tag">低消費電力</span><span class="tag">広域無線通信</span><span class="tag">ネットワーク</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>IoTで活用されているLPWAの特徴として，適切なものはどれか。</p>
+<p>ア　GHz帯を使う近距離無線通信であり，4K，8Kの映像などの大容量のデータを高速伝送することに適している。<br />
+イ　電力線を通信に使う有線通信技術であり，スマートメーターの自動検針などに適している。<br />
+ウ　一つの基地局で広範囲をカバーできる低消費電力の無線通信技術であり，複数の機器がつながるネットワークに適している。<br />
+エ　有線のシリアル通信であり，同じ基板上の回路及びLSI間の通信に適している。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：一つの基地局で広範囲をカバーできる低消費電力の無線通信技術であり，複数の機器がつながるネットワークに適している。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">GHz帯の近距離無線通信で大容量データを高速伝送</td>
+<td style="text-align: left;">Wi-Fiなどの近距離無線通信規格の説明であり，LPWAは逆に<strong>低速・省電力・長距離</strong>を特徴とするため不適切</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">電力線を通信に使う有線通信技術</td>
+<td style="text-align: left;">PLC（Power Line Communication：電力線通信）の説明であり，LPWAは<strong>無線</strong>通信技術であるため不適切</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>一つの基地局で広範囲をカバーする低消費電力の無線通信</strong></td>
+<td style="text-align: left;"><strong>正解。LPWA（Low Power Wide Area：低消費電力広域通信）の特徴そのもの。省電力で長距離（広範囲）をカバーでき，多数のIoT機器が接続するネットワークに適している</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">有線のシリアル通信で基板上の回路・LSI間の通信</td>
+<td style="text-align: left;">I2CやSPIなどの基板内通信規格の説明であり，LPWAは<strong>広域の無線</strong>通信技術であるため不適切</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「IoTで活用されているLPWA」の特徴として適切なものを選ぶ問題であり，LPWAの本質的な特性（低消費電力・広域・無線）を理解しているかが問われている。</li>
+<li>LPWAの基本概念を確認する。</li>
+<li>LPWA（Low Power Wide Area）とは，低消費電力と長距離（広域）通信を兼ね備えた無線通信技術の総称であり，「LPWAN（Low-Power Wide-Area Network）」とも呼ばれる。</li>
+<li>一つの基地局で広い範囲をカバーでき，電池駆動でも長期間（年単位）動作可能なほどの省電力性を持つ。</li>
+<li>通信速度は低速（数十〜数百kbps程度）だが，多数のIoTデバイス（センサーなど）が断続的に少量のデータを送信するような用途に適している。</li>
+<li>他の選択肢が指す技術を特定し，LPWAと区別する。</li>
+<li>ア：GHz帯を使い大容量データを高速伝送する近距離無線通信は，<strong>Wi-Fi</strong>などの特徴であり，LPWAとは正反対の特性（高速・近距離・高消費電力）を持つ。</li>
+<li>イ：電力線を使う有線通信技術は，<strong>PLC（電力線通信）</strong>の説明であり，LPWAは無線通信であるため該当しない。</li>
+<li>エ：基板上の回路やLSI間で使われる有線のシリアル通信は，<strong>I2CやSPI</strong>などの説明であり，LPWAの広域無線通信とは全く異なる用途・技術である。</li>
+<li>「一つの基地局で広範囲をカバー」「低消費電力」「複数の機器がつながるネットワーク」という記述が，LPWAの特徴（低消費電力・広域カバー・多数のIoT機器接続に適する）と完全に一致することを確認する。</li>
+<li>以上より，<strong>ウ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q72.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q74.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

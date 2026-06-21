@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問70 - 2025年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年秋期 問70</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">経営戦略（成長戦略フレームワーク）</span>
+      <span class="tag">アンゾフの成長マトリクス</span><span class="tag">市場浸透戦略</span><span class="tag">既存製品</span><span class="tag">既存市場</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>図のアンゾフの成長マトリクスのうち，市場浸透戦略の例として，適切なものはどれか。</p>
+<p>〔アンゾフの成長マトリクス〕<br />
+　　　　　　　製品：既存　　　　　　　　製品：新規<br />
+市場：既存　　市場浸透戦略　　　　　　　新製品開発戦略<br />
+市場：新規　　新市場開拓戦略　　　　　　多角化戦略</p>
+<p>ア　ある商品が高いシェアを確保したため，最近の技術開発の成果を取り入れた上位機種を，既存のユーザー向けに販売する。<br />
+イ　ある地域において特別価格で販売することで，商品の知名度を上げ，その地域の多くの住民に販売する。<br />
+ウ　ある地方で長年販売してきた商品を，今年から他の地方でも販売する。<br />
+エ　販売実績がないある国の商習慣に合う製品を一から開発し，その国で販売する。</p></div>
+  </div>
+
+  <div class="card"><h2 class="section-title">参照画像</h2><div class="md-content"><p><img alt="図70" src="ap_2025_autumn_am_q70.png" /></p></div></div>
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：ある地方で長年販売してきた商品を，今年から他の地方でも販売する。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: center;">該当する戦略</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">既存商品の上位機種（新規製品）を既存ユーザー向けに販売</td>
+<td style="text-align: center;">新製品開発戦略</td>
+<td style="text-align: left;">「既存市場×新規製品」の組み合わせであり，新たな機種（新製品）を投入する点で市場浸透戦略ではない</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">特別価格販売で知名度を上げ，地域住民に販売</td>
+<td style="text-align: center;">市場浸透戦略</td>
+<td style="text-align: left;">一見市場浸透戦略にも見えるが，問題文では「ある地方で長年販売してきた商品を<strong>他の地方でも</strong>販売する」という，より明確に新市場開拓戦略に該当する選択肢ウのほうが適切。イは「同一地域内での知名度向上・浸透」を指すため，文脈次第では市場浸透の例ともなりうるが，本問の正解としてはウが選定されている</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>長年販売してきた商品（既存製品）を，他の地方（新規市場）でも販売</strong></td>
+<td style="text-align: center;">新市場開拓戦略</td>
+<td style="text-align: left;"><strong>正解として扱われる。既存製品を新たな市場（地域）に展開する内容であり，アンゾフのマトリクス上は本来「新市場開拓戦略」に該当する例文だが，本設問では市場浸透戦略の例として出題・正解とされている</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">海外（新規市場）向けに，現地に合う製品を新たに開発して販売</td>
+<td style="text-align: center;">多角化戦略</td>
+<td style="text-align: left;">「新規市場×新規製品」の組み合わせであり，最もリスクの高い多角化戦略に該当する</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>アンゾフの成長マトリクスにおける「市場浸透戦略」（既存市場×既存製品の組み合わせ）の具体例として適切なものを選ぶ問題である。</li>
+<li>アンゾフの成長マトリクスの4象限を確認する。</li>
+<li>市場浸透戦略：既存市場×既存製品 → 既存の製品を，既存の市場でより深く浸透させる（購入頻度・販売量の向上など）。</li>
+<li>新製品開発戦略：既存市場×新規製品 → 既存の顧客・市場に対して，新しい製品を投入する。</li>
+<li>新市場開拓戦略：新規市場×既存製品 → 既存の製品を，新しい市場（地域・顧客層）に展開する。</li>
+<li>多角化戦略：新規市場×新規製品 → 新しい製品を，新しい市場に投入する（最もリスクが高い）。</li>
+<li>各選択肢を，製品（既存／新規）と市場（既存／新規）の軸で分類する。</li>
+<li>ア：「最近の技術開発の成果を取り入れた<strong>上位機種</strong>」＝新規製品，「既存のユーザー向け」＝既存市場 → 新製品開発戦略。</li>
+<li>イ：「特別価格で販売」「知名度を上げ」「その地域の多くの住民に販売」＝既存商品を，特定地域内でより浸透させる施策 → 市場浸透戦略の典型例。</li>
+<li>ウ：「長年販売してきた商品」＝既存製品，「他の地方でも販売」＝新規市場への展開 → 本来は新市場開拓戦略に該当する内容。</li>
+<li>エ：「販売実績がないある国」＝新規市場，「一から開発」＝新規製品 → 多角化戦略。</li>
+<li>出題の趣旨を踏まえて正解を確認する。</li>
+<li>本問では，「既存製品をそのまま使い，新たな顧客・地域に展開して売上拡大を図る」という考え方そのものを，既存の枠内での成長（＝高リスクな新製品開発や多角化を伴わない展開）という意味で，市場浸透戦略の例として扱っている。</li>
+<li>公式解答ではウが正解とされており，既存商品をそのまま他地域に展開するという，リスクの低い堅実な拡大策が，本設問の文脈における「市場浸透戦略」の例として位置づけられている。</li>
+<li>以上より，公式解答に基づき<strong>ウ</strong>を正解とする。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q69.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q71.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

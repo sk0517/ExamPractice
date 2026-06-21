@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問30 - 2024年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2024年秋期 問30</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">データベース（SQL・ウィンドウ関数）</span>
+      <span class="tag">SQL</span><span class="tag">ROW_NUMBER</span><span class="tag">PARTITION BY</span><span class="tag">ORDER BY</span><span class="tag">ウィンドウ関数</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>"成績"表に対して，SQL文1と同一の結果を得るために，SQL文2の a に入れる字句はどれか。</p>
+<pre><code>成績
+| 学生番号 | 実施回 | 得点 |
+|:--|:--|:--|
+| S01 | 1  | 70  |
+| S01 | 7  | 80  |
+| S02 | 2  | 85  |
+| S02 | 5  | 82  |
+| S03 | 3  | 83  |
+| S03 | 9  | 78  |
+| S03 | 12 | 90  |
+| S04 | 6  | 100 |
+</code></pre>
+<p>〔SQL文1〕</p>
+<pre><code class="language-sql">SELECT R1.学生番号, R1.実施回, R1.得点 FROM 成績 R1
+    INNER JOIN
+    (SELECT 学生番号, MIN(実施回) AS 初回 FROM 成績
+        GROUP BY 学生番号) R2
+    ON R1.学生番号 = R2.学生番号
+    AND R1.実施回 = R2.初回
+</code></pre>
+<p>〔SQL文2〕</p>
+<pre><code class="language-sql">SELECT 学生番号, 実施回, 得点
+    FROM (SELECT 学生番号, 実施回, 得点, ROW_NUMBER() OVER ( a ) AS 番号
+        FROM 成績) R1
+    WHERE R1.番号 = 1
+</code></pre>
+<p>ア　ORDER BY 学生番号, 実施回<br />
+イ　PARTITION BY 学生番号 ORDER BY 実施回<br />
+ウ　PARTITION BY 学生番号 ORDER BY 得点 ASC<br />
+エ　PARTITION BY 学生番号 ORDER BY 得点 DESC</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>イ</strong>：PARTITION BY 学生番号 ORDER BY 実施回</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">ORDER BY 学生番号, 実施回（PARTITION BYなし）</td>
+<td style="text-align: left;">PARTITION BYを指定しないため、表全体を一つの集合として連番が振られてしまい、学生ごとに番号がリセットされない。学生番号でソートされた最初の1行（S01の最も実施回が小さい行）しか「番号=1」にならず、各学生の初回レコードを取得できない</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>イ</strong></td>
+<td style="text-align: left;"><strong>PARTITION BY 学生番号 ORDER BY 実施回</strong></td>
+<td style="text-align: left;"><strong>正解。学生番号ごとにグループ（パーティション）を分け、各グループ内で実施回の昇順に並べ替えて連番を振る。各学生のグループ内で実施回が最も小さい行が「番号=1」となり、SQL文1（各学生の初回の実施回・得点を取得する処理）と同じ結果が得られる</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">PARTITION BY 学生番号 ORDER BY 得点 ASC</td>
+<td style="text-align: left;">学生ごとにパーティションを分ける点は正しいが、得点の昇順で並べ替えるため「番号=1」になるのは各学生の最低得点の行であり、実施回が最小の行（初回）とは一致しない</td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">PARTITION BY 学生番号 ORDER BY 得点 DESC</td>
+<td style="text-align: left;">学生ごとにパーティションを分ける点は正しいが、得点の降順で並べ替えるため「番号=1」になるのは各学生の最高得点の行であり、実施回が最小の行（初回）とは一致しない</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文・SQL文1の意図を整理する。</li>
+<li>SQL文1は、サブクエリで各学生番号ごとの最小の実施回（初回）を求め、それを元の成績表と結合することで、各学生の「初回（実施回が最も小さい回）」の実施回・得点を抽出している。</li>
+<li>bash_toolでSQL文1を実際に実行し、結果を確認する。</li>
+<li>S01：実施回1、得点70／S02：実施回2、得点85／S03：実施回3、得点83／S04：実施回6、得点100、という4行が得られる。</li>
+<li>SQL文2の構造を確認する。</li>
+<li>ROW_NUMBER()ウィンドウ関数を使い、何らかの基準で連番（番号）を振った上で、番号＝1の行のみを抽出する構成になっている。</li>
+<li>ROW_NUMBER() OVER (...) の中で指定する「PARTITION BY」と「ORDER BY」の役割を確認する。</li>
+<li>PARTITION BY：番号を振る単位となるグループを指定する（指定した列の値が同じ行同士で連番がリセットされる）。</li>
+<li>ORDER BY：パーティション内で番号を振る際の並び順を指定する（先頭が番号1になる）。</li>
+<li>SQL文1と同じ結果（各学生ごとの「実施回が最小」の行）を得るための条件を考える。</li>
+<li>学生番号ごとに連番をリセットする必要がある → PARTITION BY 学生番号が必要。</li>
+<li>パーティション内で実施回の昇順に並べ、最小の実施回の行を1番にする必要がある → ORDER BY 実施回が必要。</li>
+<li>bash_toolで各選択肢のSQLを実際に実行し、結果を比較検証する。</li>
+<li>ア（PARTITION BYなし）：表全体で連番が振られ、S01の最小実施回の行のみが抽出され、他の学生のデータが欠落する。</li>
+<li>イ（PARTITION BY 学生番号 ORDER BY 実施回）：SQL文1と完全に同じ結果（S01:1,70／S02:2,85／S03:3,83／S04:6,100）が得られる。</li>
+<li>ウ（ORDER BY 得点 ASC）：得点が最も低い行が抽出され、SQL文1の結果とは異なる。</li>
+<li>エ（ORDER BY 得点 DESC）：得点が最も高い行が抽出され、SQL文1の結果とは異なる。</li>
+<li>実際の実行結果がSQL文1と完全に一致した<strong>イ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q29.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q31.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

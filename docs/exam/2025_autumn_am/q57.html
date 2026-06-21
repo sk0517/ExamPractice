@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問57 - 2025年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年秋期 問57</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">ハードウェア・データセンター技術</span>
+      <span class="tag">液浸冷却</span><span class="tag">液体冷却</span><span class="tag">単相冷却</span><span class="tag">二相冷却</span><span class="tag">GPU</span><span class="tag">データセンター冷却技術</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>生成AIの処理などで用いられる，大量に発熱するGPUを搭載したサーバを，空気冷却よりも少ない消費電力で効率良く冷却できる液体冷却の一つに液浸冷却がある。液体冷却の方法の説明のうちで，液浸冷却の方法の説明に該当するものの組みはどれか。</p>
+<p>〔液体冷却の方法の説明〕<br />
+a　液体を循環させて熱交換器で冷やす単相冷却と，気化熱を利用する二相冷却とがある。<br />
+b　サーバに取り付けた金属板と熱交換してサーバを冷却する。<br />
+c　サーバを筐体ごと液体に漬けて冷却する。<br />
+d　冷媒となる液体として通常は水を使用する。</p>
+<p>ア　a, b　　イ　a, c<br />
+ウ　b, d　　エ　c, d</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>イ</strong>：a, c</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: center;">説明</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: center;">液浸冷却の説明か</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">a</td>
+<td style="text-align: left;">単相冷却と二相冷却がある</td>
+<td style="text-align: center;"><strong>○</strong></td>
+<td style="text-align: left;">液浸冷却には，冷媒液を循環させるだけで気化させない「単相式」と，発熱で冷媒が沸騰・気化し，その気化熱で冷却する「二相式」の2方式があり，これは液浸冷却の代表的な分類方法</td>
+</tr>
+<tr>
+<td style="text-align: center;">b</td>
+<td style="text-align: left;">金属板（コールドプレート）と熱交換</td>
+<td style="text-align: center;">✕</td>
+<td style="text-align: left;">これは「コールドプレート方式（直接液冷／DLC）」の説明であり，CPUやGPU表面に密着させた金属製プレート内部に冷却液を流して熱を吸収する方式。サーバ自体を液体に漬けるわけではないため，液浸冷却とは異なる</td>
+</tr>
+<tr>
+<td style="text-align: center;">c</td>
+<td style="text-align: left;">筐体ごと液体に漬けて冷却</td>
+<td style="text-align: center;"><strong>○</strong></td>
+<td style="text-align: left;">サーバなどの電子部品を，タンク内の絶縁性（誘電性）の冷却液に直接浸すという，液浸冷却そのものの基本的な仕組み</td>
+</tr>
+<tr>
+<td style="text-align: center;">d</td>
+<td style="text-align: left;">冷媒として通常は水を使用</td>
+<td style="text-align: center;">✕</td>
+<td style="text-align: left;">液浸冷却で使用される冷媒は，電気を通さない<strong>絶縁性の油（オイル）</strong>やフッ素系の冷却液が一般的であり，導電性のある水は通常使用しない</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「液浸冷却」が，液体冷却の方法のうち，どのような特徴を持つ方式かを問う問題であり，a〜dの4つの説明文から，液浸冷却に該当するものの組み合わせを選ぶ。</li>
+<li>液浸冷却の基本概念を確認する。</li>
+<li>液浸冷却とは，サーバなどの電子部品を<strong>筐体ごと冷却液（絶縁性の液体）に浸す</strong>ことで冷却する方式であり，空冷よりも効率的にGPUなどの発熱を処理できる。</li>
+<li>液浸冷却には，冷却液を液体のまま循環させて熱交換する「単相式」と，発熱によって冷却液が沸騰・気化し，その気化熱で冷却した後，凝縮して液体に戻る「二相式」の2種類がある。</li>
+<li>各説明文を液浸冷却の特徴と照らし合わせる。</li>
+<li>a：「単相冷却」と「気化熱を利用する二相冷却」という記述は，液浸冷却における2つの方式（単相式・二相式）の説明と完全に一致する → <strong>該当</strong>。</li>
+<li>b：「金属板（コールドプレート）と熱交換」という記述は，部品を液体に直接浸すのではなく，金属プレートを介して熱交換する「コールドプレート方式（直接液冷）」の説明であり，液浸冷却とは異なる方式 → <strong>非該当</strong>。</li>
+<li>c：「筐体ごと液体に漬けて冷却する」という記述は，液浸冷却の最も基本的かつ特徴的な仕組みそのものである → <strong>該当</strong>。</li>
+<li>d：液浸冷却の冷媒は，電子部品が直接液体に浸かるため，<strong>電気を通さない絶縁性の液体（オイルやフッ素系冷却液）</strong>が使用される。水は導電性があり，電子部品の損傷・感電のリスクがあるため，通常は使用されない → <strong>非該当</strong>。</li>
+<li>該当する説明文を確認する。</li>
+<li>a（単相・二相の分類）とc（筐体ごと液体に漬ける）の2つが，液浸冷却の説明として適切である。</li>
+<li>以上より，aとcの組み合わせである<strong>イ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q56.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q58.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

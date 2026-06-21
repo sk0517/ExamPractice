@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問66 - 2025年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年秋期 問66</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">企業活動・契約形態（IoTシステム開発）</span>
+      <span class="tag">定額契約</span><span class="tag">実費償還契約</span><span class="tag">契約形態</span><span class="tag">費用負担</span><span class="tag">委託契約</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>IoTを活用した工場管理システムの開発を行う。システムを構築し，サービスを運営するA社は，B社にボード開発を定額契約で委託した。B社はボードの納入前のネットワーク試験のため，工場の設備を管理するC社と実費償還契約を締結し，工場の一部区画とネットワークを借用した。C社のネットワーク設備に故障はなく，B社の人的リソース不足が原因でネットワーク試験の作業が遅延し，追加の費用が発生したとき，その費用を負担すべき会社はどれか。ここで，各社は契約を正当に履行するものとする。また，定額契約を交わした時点では，開発のスコープは十分明確で，契約以降の変更はないものとする。</p>
+<p>ア　A社　　イ　A社及びB社<br />
+ウ　B社　　エ　B社及びC社</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：B社</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">A社が負担</td>
+<td style="text-align: left;">A社とB社の契約は「定額契約」であり，契約金額が固定されているため，B社側の作業遅延による追加コストをA社が追加負担する理由はない（スコープも契約後に変更なしと明示されている）</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">A社及びB社が負担</td>
+<td style="text-align: left;">上記と同様の理由で，A社が追加費用を負担する根拠はないため不適切</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>B社が負担</strong></td>
+<td style="text-align: left;"><strong>正解。遅延の原因はB社の人的リソース不足というB社側の責任にあり，C社の設備には故障がない（C社に帰責事由がない）ため，実費償還契約に基づく追加費用はB社が負担すべきである</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">B社及びC社が負担</td>
+<td style="text-align: left;">C社のネットワーク設備に故障はなく，C社に帰責事由がないため，C社が追加費用を負担する理由はない</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文の契約関係と登場人物を整理する。</li>
+<li>A社：システムを構築・運営する委託元。</li>
+<li>B社：A社からボード開発を<strong>定額契約</strong>で受託した会社。</li>
+<li>C社：工場の設備を管理する会社で，B社はネットワーク試験のためにC社と<strong>実費償還契約</strong>を締結し，工場の一部区画とネットワークを借用した。</li>
+<li>各契約の性質を確認する。</li>
+<li><strong>定額契約（A社⇔B社）</strong>：契約金額があらかじめ固定されている契約形態。スコープが契約時点で十分明確であり，契約以降の変更がないと明示されているため，B社側の事情（遅延等）による追加費用をA社が負担する理由はない。</li>
+<li><strong>実費償還契約（B社⇔C社）</strong>：実際にかかった費用（実費）を支払う契約形態。試験期間の延長などにより追加でC社の設備・区画を借用すれば，その分の追加費用が発生し得る契約。</li>
+<li>作業遅延の原因（帰責事由）を確認する。</li>
+<li>問題文には「C社のネットワーク設備に故障はなく，B社の人的リソース不足が原因でネットワーク試験の作業が遅延し」と明記されている。</li>
+<li>つまり，遅延の原因はC社側の設備トラブルではなく，<strong>B社側の人員確保不足</strong>という，B社の責任に起因するものである。</li>
+<li>追加費用の発生箇所と負担すべき主体を特定する。</li>
+<li>追加費用は，B社がC社の設備・区画を借用する期間が延びたことで発生した，<strong>実費償還契約（B社⇔C社）に基づく追加コスト</strong>である。</li>
+<li>この追加費用の発生原因はB社自身の人的リソース不足であり，C社には帰責事由がないため，B社が自らの責任としてこの追加費用を負担すべきである。</li>
+<li>A社とB社の契約は定額契約であり，スコープ変更もないため，A社がこの追加費用を負担する理由はない。</li>
+<li>以上より，遅延の原因を作ったB社が，実費償還契約に基づく追加費用を負担すべきであることから，<strong>ウ（B社）</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q65.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q67.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

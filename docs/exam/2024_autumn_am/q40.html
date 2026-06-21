@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問40 - 2024年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2024年秋期 問40</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">セキュリティ（不正アクセス手法）</span>
+      <span class="tag">パスワードリスト攻撃</span><span class="tag">リスト型攻撃</span><span class="tag">不正ログイン</span><span class="tag">アカウント乗っ取り</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>パスワードリスト攻撃に該当するものはどれか。</p>
+<p>ア　一般的な単語や人名からパスワードのリストを作成し，インターネットバンキングへのログインを試行する。<br />
+イ　想定し得るパスワードとそのハッシュ値との対のリストを用いて，入手したハッシュ値からパスワードを効率的に解析する。<br />
+ウ　どこかのWebサイトから流出した利用者IDとパスワードのリストを用いて，他のWebサイトに対してログインを試行する。<br />
+エ　ピクチャパスワードの入力を録画してリスト化しておき，それを利用することによってタブレット端末へのログインを試行する。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：どこかのWebサイトから流出した利用者IDとパスワードのリストを用いて，他のWebサイトに対してログインを試行する。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">単語・人名リストによる総当たり</td>
+<td style="text-align: left;">あらかじめ用意した一般的な単語や人名のリストを使って次々とパスワードを試す手法は「辞書攻撃」に該当する。流出した実在の認証情報を使うものではなく、推測ベースの攻撃である点がパスワードリスト攻撃と異なる</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">パスワードとハッシュ値の対応リストからの解析</td>
+<td style="text-align: left;">想定されるパスワードとそのハッシュ値の対応表（レインボーテーブルなど）を用いて、入手したハッシュ値から元のパスワードを逆算する手法であり、ハッシュ値の解析を目的とした別の攻撃手法である</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>流出した利用者ID・パスワードを別サイトで使い回す</strong></td>
+<td style="text-align: left;"><strong>正解。パスワードリスト攻撃は、あるWebサイトから流出（または不正に入手）した利用者IDとパスワードの組み合わせのリストを用いて、利用者が複数のサイトで同じID・パスワードを使い回している可能性に着目し、別のWebサイトへの不正ログインを試みる攻撃である</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">ピクチャパスワードの録画によるリスト化</td>
+<td style="text-align: left;">特定の入力方式（ピクチャパスワード）の操作を録画して再利用する手法であり、文字列としてのID・パスワードのリストを用いる「パスワードリスト攻撃」とは異なる、ショルダーハッキングや録画盗撮に類する手口である</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「パスワードリスト攻撃」に該当する攻撃手法を選ぶ。</li>
+<li>パスワードリスト攻撃の定義を確認する。</li>
+<li>パスワードリスト攻撃とは、何らかの方法（情報漏えい、フィッシングなど）で入手した「利用者IDとパスワードの組み合わせ」のリストを用いて、別のサービスへの不正ログインを試みる攻撃手法である。</li>
+<li>多くの利用者が複数のサービスで同一のID・パスワードを使い回している実態を悪用しており、「リスト型攻撃」とも呼ばれる。</li>
+<li>各選択肢が説明している攻撃手法を特定する。</li>
+<li>ア：一般的な単語や人名のリストでパスワードを推測して試行する手法 → 辞書攻撃。</li>
+<li>イ：パスワードとハッシュ値の対応表からハッシュ値を逆算してパスワードを求める手法 → レインボーテーブル攻撃などのハッシュ解析手法。</li>
+<li>ウ：あるサイトから流出した実在のID・パスワードの組み合わせを別のサイトで試行する手法 → パスワードリスト攻撃そのもの。</li>
+<li>エ：ピクチャパスワードの入力操作を録画し、それを再利用してログインを試みる手法 → 録画・盗撮を利用した別の不正アクセス手口。</li>
+<li>パスワードリスト攻撃の本質的な特徴（「実際に流出した正しい認証情報の組み合わせ」を「別のサービス」に対して使い回す）と、選択肢ウの記述を照合する。</li>
+<li>「どこかのWebサイトから流出した利用者IDとパスワードのリスト」という部分が「実在の流出済み認証情報」という特徴と一致する。</li>
+<li>「他のWebサイトに対してログインを試行する」という部分が「使い回しを悪用した別サービスへの不正ログイン」という特徴と一致する。</li>
+<li>ア・イ・エはいずれも、推測（辞書攻撃）、ハッシュ値の解析、特殊な認証方式の盗撮といった、パスワードリスト攻撃とは異なる別の攻撃手法であることを確認する。</li>
+<li>以上より、<strong>ウ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q39.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q41.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

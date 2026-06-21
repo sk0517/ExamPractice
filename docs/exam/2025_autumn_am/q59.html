@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問59 - 2025年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年秋期 問59</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">マネジメント系</span>
+      <span class="tag">システム監査</span>
+      <span class="tag">システム監査人</span><span class="tag">フォローアップ</span><span class="tag">改善提案</span><span class="tag">モニタリング</span><span class="tag">独立性</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>システム監査報告書の改善提案に対し，システム監査人が行うフォローアップとして，適切なものはどれか。</p>
+<p>ア　改善提案に対する改善の実施を監査対象部門の長に指示する。<br />
+イ　改善提案に対する監査対象部門の改善実施プロジェクトの管理を行う。<br />
+ウ　改善提案に対する監査対象部門の改善状況をモニタリングする。<br />
+エ　改善提案の内容を監査対象部門に示した上で改善計画を策定する。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：改善提案に対する監査対象部門の改善状況をモニタリングする。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">改善の実施を監査対象部門の長に<strong>指示</strong>する</td>
+<td style="text-align: left;">システム監査人は改善の実施そのものに責任を負わず，改善の実施を指示する権限・役割を持たない。指示・命令は監査対象部門の責任において行われるべき事項</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">監査対象部門の改善実施プロジェクトの<strong>管理</strong>を行う</td>
+<td style="text-align: left;">システム監査人が改善プロジェクトの管理（実行）に関与すると，監査人としての<strong>独立性と客観性を損なう</strong>ため不適切</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>監査対象部門の改善状況を</strong>モニタリング<strong>する</strong></td>
+<td style="text-align: left;"><strong>正解。フォローアップは，監査対象部門の責任において実施される改善を，システム監査人が事後的に確認（モニタリング）するという性質のものである</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">改善提案の内容を示した上で改善<strong>計画を策定</strong>する</td>
+<td style="text-align: left;">改善計画の策定は監査対象部門（被監査部門）が行うべきものであり，システム監査人が策定に関与すると独立性・客観性を損なうため不適切</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「システム監査報告書の改善提案」に対し，システム監査人が行う「フォローアップ」として適切な行動を選ぶ問題である。</li>
+<li>フォローアップの定義と性質を確認する。</li>
+<li>フォローアップとは，監査報告書に記載した改善提案について，監査対象部門がその対応状況（改善計画書，改善実施状況報告書など）を報告し，システム監査人がその改善状況を<strong>事後的に確認（モニタリング）</strong>するプロセスである。</li>
+<li>重要な点として，<strong>改善の実施そのものに対する責任は監査対象部門側にあり</strong>，システム監査人はその実行・管理・計画策定には関与しない。</li>
+<li>監査人がフォローアップで「やってはいけないこと」を確認する。</li>
+<li>改善の実施を指示する（ア）：指示・命令を行う権限はなく，あくまで改善は監査対象部門の自主的な責任で行われるべきもの。</li>
+<li>改善実施プロジェクトの管理を行う（イ）：監査人が改善プロジェクトの管理・実行に関与すると，後の監査における<strong>独立性・客観性を損なう</strong>ため不適切。</li>
+<li>改善計画を策定する（エ）：改善計画の策定も監査対象部門が行うべきものであり，監査人が計画策定に関与することも独立性・客観性を損なう。</li>
+<li>システム監査人が「行うべきこと」を確認する。</li>
+<li>監査対象部門から提出された改善計画書や改善実施状況報告書をもとに，改善内容の妥当性，改善体制，進捗状況等を確認し，<strong>改善状況をモニタリングする</strong>ことがフォローアップの本来の役割である。</li>
+<li>以上より，システム監査人としての独立性・客観性を保ちながら，事後的に改善状況を確認するという記述に合致する<strong>ウ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q58.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q60.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

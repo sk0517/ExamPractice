@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問64 - 2024年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2024年秋期 問64</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">業務分析・業務効果計算（BPR）</span>
+      <span class="tag">BPR</span><span class="tag">外部委託</span><span class="tag">人件費削減</span><span class="tag">業務改善効果計算</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>BPRによって業務を見直した場合，これまで従業員5人で年間計9,000時間掛かっていた業務が7,000時間で実現可能なことと，その7,000時間のうちの2,000時間分の業務は外部委託が可能なことが分かった。この結果を基にBPRを実施した次のシナリオaからdのうち，当該部門において，年間当たりの金額面の効果が最も高いものはどれか。なお，いずれのシナリオも年初から実施することとし，条件に記載した時間や費用以外は考慮しないものとする。</p>
+<p>〔条件〕<br />
+(1) 年間計9,000時間の内訳は従業員1人当たり1,800時間とする。<br />
+(2) 従業員1人当たりの年間の人件費は600万円とする。<br />
+(3) 外部委託が可能な2,000時間分の業務を，外部委託した場合の年間費用は700万円とする。外部委託の契約は1年単位で年間費用の700万円は固定である。<br />
+(4) 従業員の空いた時間は別の付加価値業務が行えるようになり，従業員1人につき100時間当たり20万円の利益を得ることができる。<br />
+(5) 従業員4人で当該業務を行う場合は，残り1人は他部門に異動する。当該部門では，1人分の人件費の削減効果だけを考慮する。<br />
+(6) BPR実施後，当該業務に関わらない従業員の人件費は金額面の効果とみなす。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">シナリオ</th>
+<th style="text-align: left;">当該業務を行う従業員数</th>
+<th style="text-align: left;">外部委託</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">a</td>
+<td style="text-align: left;">4人</td>
+<td style="text-align: left;">する</td>
+</tr>
+<tr>
+<td style="text-align: left;">b</td>
+<td style="text-align: left;">4人</td>
+<td style="text-align: left;">しない</td>
+</tr>
+<tr>
+<td style="text-align: left;">c</td>
+<td style="text-align: left;">5人</td>
+<td style="text-align: left;">する</td>
+</tr>
+<tr>
+<td style="text-align: left;">d</td>
+<td style="text-align: left;">5人</td>
+<td style="text-align: left;">しない</td>
+</tr>
+</tbody>
+</table>
+<p>ア　シナリオa　　イ　シナリオb　　ウ　シナリオc　　エ　シナリオd</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>イ</strong>：シナリオb</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">シナリオ</th>
+<th style="text-align: left;">計算過程</th>
+<th style="text-align: left;">効果金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">a（4人・外部委託する）</td>
+<td style="text-align: left;">業務時間7,000時間のうち2,000時間を外部委託 → 従業員担当分5,000時間。4人の年間業務時間＝1,800×4＝7,200時間。余剰時間＝7,200－5,000＝2,200時間。付加価値業務の利益＝20万円×(2,200/100)＝440万円。外部委託費用－700万円。1人分の人件費削減効果＋600万円。合計＝440－700＋600＝<strong>340万円</strong></td>
+<td style="text-align: left;">340万円</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>b（4人・外部委託しない）</strong></td>
+<td style="text-align: left;"><strong>業務時間7,000時間すべてを4人で担当。4人の年間業務時間＝7,200時間。余剰時間＝7,200－7,000＝200時間。付加価値業務の利益＝20万円×(200/100)＝40万円。外部委託費用なし。1人分の人件費削減効果＋600万円。合計＝40＋600＝640万円（最大）</strong></td>
+<td style="text-align: left;"><strong>640万円</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">c（5人・外部委託する）</td>
+<td style="text-align: left;">業務時間7,000時間のうち2,000時間を外部委託 → 従業員担当分5,000時間。5人の年間業務時間＝1,800×5＝9,000時間。余剰時間＝9,000－5,000＝4,000時間。付加価値業務の利益＝20万円×(4,000/100)＝800万円。外部委託費用－700万円。人件費削減効果なし（5人全員が業務に従事）。合計＝800－700＝100万円</td>
+<td style="text-align: left;">100万円</td>
+</tr>
+<tr>
+<td style="text-align: left;">d（5人・外部委託しない）</td>
+<td style="text-align: left;">業務時間7,000時間すべてを5人で担当。5人の年間業務時間＝9,000時間。余剰時間＝9,000－7,000＝2,000時間。付加価値業務の利益＝20万円×(2,000/100)＝400万円。外部委託費用なし。人件費削減効果なし。合計＝400万円</td>
+<td style="text-align: left;">400万円</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文・条件を整理する。</li>
+<li>BPR前：5人で年間9,000時間（1人当たり1,800時間）</li>
+<li>BPR後：業務全体は7,000時間で実現可能。うち2,000時間分は外部委託可能。</li>
+<li>各シナリオで「従業員数（4人または5人）」と「外部委託の有無」を組み合わせ、年間当たりの金額面の効果が最も高いものを求める。</li>
+<li>各シナリオで従業員が実際に担当する業務時間を求める。</li>
+<li>外部委託する場合：担当業務時間＝7,000－2,000＝5,000時間</li>
+<li>外部委託しない場合：担当業務時間＝7,000時間（そのまま）</li>
+<li>各シナリオで従業員の保有時間（人数×1,800時間）を求め、余剰時間（付加価値業務に充てられる時間）を計算する。</li>
+<li>4人の場合：保有時間＝1,800×4＝7,200時間</li>
+<li>5人の場合：保有時間＝1,800×5＝9,000時間</li>
+<li>bash_toolを用いて4パターンすべての効果金額を計算する。</li>
+<li>シナリオa（4人・外部委託する）：余剰時間2,200時間→付加価値利益440万円、外部委託費用－700万円、人件費削減効果＋600万円（1人他部門異動）→合計340万円。</li>
+<li>シナリオb（4人・外部委託しない）：余剰時間200時間→付加価値利益40万円、外部委託費用なし、人件費削減効果＋600万円→合計640万円。</li>
+<li>シナリオc（5人・外部委託する）：余剰時間4,000時間→付加価値利益800万円、外部委託費用－700万円、人件費削減効果なし（5人全員従事）→合計100万円。</li>
+<li>シナリオd（5人・外部委託しない）：余剰時間2,000時間→付加価値利益400万円、外部委託費用なし、人件費削減効果なし→合計400万円。</li>
+<li>各シナリオの効果金額を比較する。</li>
+<li>b（640万円）＞d（400万円）＞a（340万円）＞c（100万円）</li>
+<li>4人で実施し、外部委託をしない場合（シナリオb）が、人件費削減効果（600万円）が大きく寄与し、最も金額面の効果が高くなる。</li>
+<li>公式解説サイトの計算結果（シナリオaが340万円、シナリオbが640万円、シナリオcが100万円、シナリオdが400万円）と、bash_toolによる計算結果が完全に一致することを確認した。</li>
+<li>以上より、年間当たりの金額面の効果が最も高い<strong>イ（シナリオb）</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q63.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q65.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

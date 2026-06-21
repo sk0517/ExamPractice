@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問69 - 2025年春期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年春期 問69</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">経営戦略（ビジネスモデルキャンバス）</span>
+      <span class="tag">ビジネスモデルキャンバス</span><span class="tag">BMC</span><span class="tag">価値提案</span><span class="tag">カーシェアビジネス</span><span class="tag">VP</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>カーシェアビジネスをビジネスモデルキャンバスに当てはめた。bに該当するものはどれか。なお，ア～エはa～dのいずれかに該当する。</p>
+<p>〔カーシェアビジネス〕<br />
+・カーディーラーから車両を調達し，維持・メンテナンスしながら，その車両を提携駐車場に保管・準備する。<br />
+・必要なときだけ車両を使いたい人が登録する会員制度を構築し，会員から月会費を徴収する。<br />
+・会員向けのWebサイトで，会員に使いたい車両や利用時間などを予約してもらい，会員に対して車両の時間貸しを行い，利用料を徴収する。</p>
+<p>〔ビジネスモデルキャンバス〕</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">KP（パートナー）<br>カーディーラー・提携駐車場</th>
+<th style="text-align: left;">KA（主要活動）<br>維持・メンテナンス</th>
+<th style="text-align: left;">VP（価値提案）<br><strong>b</strong></th>
+<th style="text-align: left;">CR（顧客との関係）<br>会員制度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">KR（リソース）<br><strong>a</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">CS（顧客セグメント）<br><strong>c</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">CH（チャネル）<br>Webサイト</td>
+</tr>
+</tbody>
+</table>
+<p>C$（コスト構造）：調達・維持・メンテナンス費用，駐車場代　　R$（収益の流れ）：<strong>d</strong></p>
+<p>ア　月会費，利用料　　イ　車両<br />
+ウ　車両の時間貸し　　エ　必要なときだけ車両を使いたい人</p></div>
+  </div>
+
+  <div class="card"><h2 class="section-title">参照画像</h2><div class="md-content"><p><img alt="図69" src="ap_2025_spring_am_q69.png" /></p>
+<!-- 画像がある場合: ![図1](images/2025a_q69_fig1.jpg) --></div></div>
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：車両の時間貸し</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><p>ビジネスモデルキャンバスの各空欄（a〜d）は，問題文の3つの記述から次のように対応づけられる。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">空欄</th>
+<th style="text-align: left;">対応するブロック</th>
+<th style="text-align: left;">該当する記述・内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">a</td>
+<td style="text-align: left;">KR（リソース）</td>
+<td style="text-align: left;">「カーディーラーから車両を調達し」より，事業に必要な主要リソースは<strong>車両（イ）</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>b</strong></td>
+<td style="text-align: left;"><strong>VP（価値提案）</strong></td>
+<td style="text-align: left;"><strong>「会員に対して車両の時間貸しを行い，利用料を徴収する」より，顧客に提供する価値は車両の時間貸し（ウ）</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">c</td>
+<td style="text-align: left;">CS（顧客セグメント）</td>
+<td style="text-align: left;">「必要なときだけ車両を使いたい人が登録する会員制度」より，対象とする顧客層は<strong>必要なときだけ車両を使いたい人（エ）</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">d</td>
+<td style="text-align: left;">R$（収益の流れ）</td>
+<td style="text-align: left;">「会員から月会費を徴収する」「利用料を徴収する」より，収益の流れは<strong>月会費，利用料（ア）</strong></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">月会費，利用料</td>
+<td style="text-align: left;">これは収益の流れ（R$）に対応する内容であり，dに該当する</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">車両</td>
+<td style="text-align: left;">これは事業運営に必要なリソース（KR）に対応する内容であり，aに該当する</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>車両の時間貸し</strong></td>
+<td style="text-align: left;"><strong>正解。会員に対して提供される中心的な価値（顧客が対価を支払う対象となるサービス内容）であり，価値提案（VP）に対応する。bに該当する</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">必要なときだけ車両を使いたい人</td>
+<td style="text-align: left;">これは事業のターゲットとなる顧客層（CS）に対応する内容であり，cに該当する</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>カーシェアビジネスの説明文を，ビジネスモデルキャンバスの9つのブロック（KP，KA，KR，VP，CR，CS，CH，C$，R$）に分解して当てはめ，空欄bに該当する語句を特定する問題である。</li>
+<li>ビジネスモデルキャンバスの各ブロックの定義を確認する。</li>
+<li>VP（Value Propositions：価値提案）：「顧客にどのような価値を提供するか」を表すブロックであり，顧客が対価を支払う対象となる中心的なサービス・製品の内容を記述する。</li>
+<li>KR（Key Resources：リソース）：事業を成立させるために必要な主要資源（人材，設備，車両など）。</li>
+<li>CS（Customer Segments：顧客セグメント）：価値を提供する対象となる顧客層。</li>
+<li>R$（Revenue Streams：収益の流れ）：顧客からどのように対価を得るか（収益源）。</li>
+<li>表における各空欄の位置（どのブロックに該当するか）を確認する。</li>
+<li>表の配置から，a＝KR（リソース），b＝VP（価値提案），c＝CS（顧客セグメント），d＝R$（収益の流れ）に対応していることがわかる。</li>
+<li>問題文の3つの記述を，それぞれ対応するブロックの内容に当てはめる。</li>
+<li>「カーディーラーから車両を調達し，維持・メンテナンスしながら，提携駐車場に保管・準備する」→ KPはカーディーラー・提携駐車場，KAは維持・メンテナンス，そして事業運営の核となるリソースは「車両」（a）。</li>
+<li>「必要なときだけ車両を使いたい人が登録する会員制度を構築し，会員から月会費を徴収する」→ CRは会員制度，CSは「必要なときだけ車両を使いたい人」（c）。</li>
+<li>「会員向けのWebサイトで予約してもらい，会員に対して車両の時間貸しを行い，利用料を徴収する」→ CHはWebサイト，R$は「月会費，利用料」（d），そして顧客に提供する中心的な価値（VP）は「車両の時間貸し」（b）。</li>
+<li>bに対応するブロックがVP（価値提案）であり，「会員に対して車両の時間貸しを行う」という記述がその内容と一致することから，<strong>ウ（車両の時間貸し）</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q68.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q70.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

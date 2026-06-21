@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問20 - 2025年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年秋期 問20</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">テクノロジ系</span>
+      <span class="tag">ハードウェア（デジタル回路設計）</span>
+      <span class="tag">FPGA</span><span class="tag">HDL</span><span class="tag">論理合成</span><span class="tag">回路記述言語</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>FPGA などに実装するデジタル回路を記述し，論理合成を行うために使用される言語はどれか。</p>
+<p>ア　DDL　　イ　HDL　　ウ　UML　　エ　XML</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>イ</strong>：HDL</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">DDL（Data Definition Language）</td>
+<td style="text-align: left;">データベースにおいてテーブルやインデックスなどのデータ構造を定義するための言語（CREATE文やALTER文など）であり、デジタル回路の記述とは無関係</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>イ</strong></td>
+<td style="text-align: left;"><strong>HDL（Hardware Description Language）</strong></td>
+<td style="text-align: left;"><strong>正解。ハードウェア記述言語と呼ばれ、FPGAやASICなどに実装するデジタル回路の構造や動作をテキストで記述し、論理合成ツールによって実際の回路（ゲートレベルの構成）に変換するために用いられる。代表的な言語にVerilog HDLやVHDLがある</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">UML（Unified Modeling Language）</td>
+<td style="text-align: left;">ソフトウェアやシステムの設計・構造を図示するための統一モデリング言語であり、クラス図やシーケンス図などを記述するために使われるが、デジタル回路の論理合成を目的とした言語ではない</td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">XML（Extensible Markup Language）</td>
+<td style="text-align: left;">データを構造化して記述するための汎用的なマークアップ言語であり、デジタル回路の記述・論理合成とは異なる用途で使用される</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>「FPGAなどに実装するデジタル回路を記述し，論理合成を行う」という記述の意味を確認する。</li>
+<li>FPGA（Field-Programmable Gate Array）は、設計者が自由に内部の論理回路構成を書き込める集積回路であり、その回路構成は専用の言語によって記述される。</li>
+<li>「論理合成」とは、記述された回路の動作・構造の記述（ソースコードに相当するもの）を、実際にFPGA上で動作するゲートレベルの回路構成に変換する工程を指す。</li>
+<li>各選択肢の言語の本来の用途を確認する。</li>
+<li>DDL：データベースの世界で使われる、テーブル構造などのデータ定義のための言語であり、回路設計とは全く異なる分野の言語。</li>
+<li>UML：ソフトウェア工学におけるシステムの設計を可視化・文書化するためのモデリング言語であり、プログラムやシステムの構造を図で表現するために使われるが、回路を論理合成可能な形で記述する言語ではない。</li>
+<li>XML：汎用的なデータ記述・交換のためのマークアップ言語であり、設定ファイルやデータのやり取りに広く使われるが、回路の論理合成を目的とした言語ではない。</li>
+<li>デジタル回路設計の分野で実際に使われている言語を確認する。</li>
+<li>デジタル回路の設計現場では、回路の構造（どのようなゲートや回路ブロックで構成されるか）や動作（信号がどのように振る舞うか）を、プログラミング言語に似た形式で記述するための専用言語が用いられている。</li>
+<li>この専用言語群は「HDL（Hardware Description Language：ハードウェア記述言語）」と総称され、代表的なものにVerilog HDLやVHDLがある。</li>
+<li>HDLで記述された回路情報は、論理合成ツールによって解析され、FPGAやASIC上で実際に動作する論理回路（ゲートレベルのネットリストなど）に変換される。</li>
+<li>以上より、FPGAなどへのデジタル回路の実装・論理合成のために使用される言語として、選択肢の中で適切なのは<strong>イ（HDL）</strong>であると判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q19.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q21.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

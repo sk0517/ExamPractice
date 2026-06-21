@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問70 - 2025年春期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年春期 問70</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">経営戦略（収益モデル・フリーミアム）</span>
+      <span class="tag">フリーミアム</span><span class="tag">収益モデル</span><span class="tag">価格戦略</span><span class="tag">サブスクリプション</span><span class="tag">ビジネスモデル</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>フリーミアムの特徴はどれか。</p>
+<p>ア　Webサイト内の広告だけを収益源としているので，サービスの維持・拡大が困難である。<br />
+イ　全ての利用者に広く課金するモデルである。<br />
+ウ　有料と無料の境界が明確になっていて，高度な機能や充実した内容など有料のサービスの優位性がはっきりしている。<br />
+エ　利用者ごとに掛かるコストが大きいので，少数の利用者が限定的に使うような場合にだけ，より高い効果が見込める。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：有料と無料の境界が明確になっていて，高度な機能や充実した内容など有料のサービスの優位性がはっきりしている。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">広告だけを収益源としているので維持・拡大が困難</td>
+<td style="text-align: left;">フリーミアムの主な収益源は，無料ユーザーの一部が移行する<strong>有料プラン（プレミアム版）の課金</strong>であり，広告だけに依存するモデルではない。また，広告のみに依存しているとは限らないため，「困難である」という断定も適切ではない</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">全ての利用者に広く課金するモデルである</td>
+<td style="text-align: left;">フリーミアムは，基本サービスを<strong>無料</strong>で提供し，その中の一部（一般に数%程度）のユーザーのみが有料プランに移行することで収益を得るモデルである。「全ての利用者に課金する」のはむしろ<strong>サブスクリプション</strong>の特徴であり，フリーミアムとは逆の性質である</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>有料と無料の境界が明確で，有料サービスの優位性がはっきりしている</strong></td>
+<td style="text-align: left;"><strong>正解。フリーミアムが成立するためには，無料版が魅力的で利用・導入しやすいことに加えて，有料版と無料版の境目が明確であり，高度な機能や充実した内容など，有料サービスならではの優位性がはっきりしていることが必要条件とされる</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">利用者ごとのコストが大きいので少数の限定的な利用にだけ高い効果</td>
+<td style="text-align: left;">フリーミアムは，ソフトウェアやWebサービスのように，<strong>利用者が増えても追加コストがほとんどかからない</strong>領域と相性がよく，多数の無料ユーザーを集めた上でその一部を有料化することで収益を得る仕組みである。「少数の利用者に限定したほうが効果的」という記述は，フリーミアムの本質（多数の無料ユーザー基盤の上に成り立つ収益構造）と矛盾する</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「フリーミアム」というビジネスモデル・収益モデルの特徴として適切なものを選ぶ問題である。</li>
+<li>フリーミアムの定義を確認する。</li>
+<li>フリーミアム（Freemium）とは，「Free（無料）」と「Premium（割増料金）」を組み合わせた造語であり，基本的なサービスや製品の機能を無料で提供し，より高度な機能や充実したサービスについては有料で提供することで収益を得るビジネスモデルである。</li>
+<li>フリーミアムが成立するための必要条件を確認する。</li>
+<li>無料サービス自体が魅力的で，利用・導入のハードルが低いこと。</li>
+<li>有料と無料の境目（機能差・サービス差）が明確であり，有料サービスの優位性がはっきりしていること。</li>
+<li>ソフトウェア・Webサービスのように，利用者が増えても追加コストが小さいこと（無料ユーザーを多数抱えても採算が取れる）。</li>
+<li>全体のうち一部（数%程度）のユーザーが有料に移行すれば事業として成立する，いわゆる「5%ルール」のような構造であること。</li>
+<li>各選択肢を，上記の特徴と照合する。</li>
+<li>ア：収益源を広告のみに限定する記述は，フリーミアムの主たる収益源（有料プランへの課金）と異なる。</li>
+<li>イ：「全ての利用者に課金」は，フリーミアムではなくサブスクリプション型のモデルに近い特徴であり，フリーミアムの「無料利用者が大半を占め，一部のみ課金」という構造と矛盾する。</li>
+<li>エ：「少数の利用者に限定したほうが効果的」という記述は，多数の無料ユーザーを基盤とするフリーミアムの本質的な仕組みと相いれない。</li>
+<li>「有料と無料の境界の明確さ」「有料サービスの優位性」というフリーミアムの必要条件と完全に一致する<strong>ウ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q69.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q71.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問71 - 2025年春期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年春期 問71</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">技術戦略マネジメント（エッジAI）</span>
+      <span class="tag">エッジAI</span><span class="tag">推論</span><span class="tag">機械学習</span><span class="tag">クラウド</span><span class="tag">強化学習</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>クラウドで学習し，エッジデバイスで推論する機械学習ベースのエッジAIにおいて，エッジデバイスで行われる推論処理として，適切なものはどれか。</p>
+<p>ア　一定の環境の中で試行錯誤を行い，行動に報酬を与えることで学習するプロセス<br />
+イ　学習したモデルに従い，実際にデータの識別などを行うプロセス<br />
+ウ　識別などを行うためのモデルを，正解のラベルを付けたデータによって作成するプロセス<br />
+エ　識別などを行うためのモデルを，正解のラベルを付けないデータによって作成するプロセス</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>イ</strong>：学習したモデルに従い，実際にデータの識別などを行うプロセス</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">一定の環境の中で試行錯誤を行い，行動に報酬を与えることで学習するプロセス</td>
+<td style="text-align: left;">これは<strong>強化学習</strong>の説明であり，モデルを構築・改善する「学習」フェーズの処理である。エッジデバイス側で行われる「推論」処理ではない</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>イ</strong></td>
+<td style="text-align: left;"><strong>学習したモデルに従い，実際にデータの識別などを行うプロセス</strong></td>
+<td style="text-align: left;"><strong>正解。推論とは，クラウド側で学習済みのモデルを用いて，未知の入力データに対して識別・分類・予測などの判断を行う処理である。エッジAIでは，この推論処理をエッジデバイス側で実行することにより，低遅延・通信量削減・オフライン動作などのメリットが得られる</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">ウ</td>
+<td style="text-align: left;">識別などを行うためのモデルを，正解のラベルを付けたデータによって作成するプロセス</td>
+<td style="text-align: left;">これは<strong>教師あり学習</strong>によるモデル構築（学習）の説明であり，推論処理ではない。問題文の設定では，この学習はクラウド側で行われる</td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">識別などを行うためのモデルを，正解のラベルを付けないデータによって作成するプロセス</td>
+<td style="text-align: left;">これは<strong>教師なし学習</strong>によるモデル構築（学習）の説明であり，推論処理ではない。これもクラウド側で行われる処理である</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「クラウドで学習し，エッジデバイスで推論する」という役割分担が前提として示されており，このうち「エッジデバイスで行われる推論処理」として適切な説明を選ぶ問題である。</li>
+<li>機械学習における「学習」と「推論」の違いを確認する。</li>
+<li>学習（Training）：大量のデータと計算資源を用いて，識別・分類・予測などを行うためのモデルを構築するプロセス。教師あり学習（正解ラベル付きデータを用いる），教師なし学習（正解ラベルなしデータを用いる），強化学習（試行錯誤と報酬によりモデルを改善する）など，複数の手法がある。</li>
+<li>推論（Inference）：既に学習済みのモデルを使って，新しく入力された未知のデータに対して，識別・分類・予測などの判断を行うプロセス。</li>
+<li>エッジAIにおける役割分担を確認する。</li>
+<li>エッジAIでは，計算資源を多く必要とする「学習」はクラウド側で行い，学習済みモデルをエッジデバイス（末端の機器・センサーなど）に配置して，そこで「推論」を実行する構成が一般的である。これにより，通信遅延の低減，通信量の削減，オフラインでの動作，プライバシー保護などのメリットが得られる。</li>
+<li>各選択肢が，学習（ア・ウ・エ）と推論（イ）のどちらに該当するかを切り分ける。</li>
+<li>ア：試行錯誤と報酬によるモデルの学習 → 強化学習（学習フェーズ）。</li>
+<li>イ：学習済みモデルに従ってデータの識別を行う → 推論フェーズそのもの。</li>
+<li>ウ：正解ラベル付きデータによるモデル作成 → 教師あり学習（学習フェーズ）。</li>
+<li>エ：正解ラベルなしデータによるモデル作成 → 教師なし学習（学習フェーズ）。</li>
+<li>問題文の設定（学習はクラウドで行い，エッジデバイスでは推論のみを行う）と照合し，モデルの「構築」ではなく「適用（識別の実行）」を説明している<strong>イ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q70.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q72.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

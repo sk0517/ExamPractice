@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問54 - 2025年春期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2025年春期 問54</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">マネジメント系</span>
+      <span class="tag">プロジェクトマネジメント（品質管理・テスト密度と欠陥密度）</span>
+      <span class="tag">テスト密度</span><span class="tag">欠陥密度</span><span class="tag">ゾーン分析</span><span class="tag">品質管理基準</span><span class="tag">テストケースの妥当性</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>あるシステム開発プロジェクトのシステムテストにおけるテスト密度及び欠陥密度の値は，図に示した領域①～④のうち，領域④の範囲内であった。品質管理基準に照らして評価すると，行うべき活動として最も適切なものはどれか。ここで，このプロジェクトの品質管理基準では，定量評価の基準として，表に従ってテスト密度及び欠陥密度の基準値を設定した上で，テスト密度は基準値の80%以上であること，かつ，欠陥密度は基準値の80%以上120%未満であることと定めている。</p>
+<p>〔品質指標と基準値〕</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">品質指標</th>
+<th style="text-align: left;">算出方法</th>
+<th style="text-align: left;">基準値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">テスト密度</td>
+<td style="text-align: left;">テストケース数（件）÷システムの規模（KLOC）</td>
+<td style="text-align: left;">20（件/KLOC）</td>
+</tr>
+<tr>
+<td style="text-align: left;">欠陥密度</td>
+<td style="text-align: left;">検出欠陥数（件）÷システムの規模（KLOC）</td>
+<td style="text-align: left;">0.1（件/KLOC）</td>
+</tr>
+</tbody>
+</table>
+<p>〔テスト結果の領域分析〕<br />
+縦軸：欠陥密度（件/KLOC）、横軸：テスト密度（件/KLOC）<br />
+境界線：テスト密度＝16（件/KLOC），欠陥密度＝0.08，0.12（件/KLOC）<br />
+領域①：テスト密度16未満（左側全体）<br />
+領域②：テスト密度16以上，欠陥密度0.12以上<br />
+領域③：テスト密度16以上，欠陥密度0.08以上0.12未満<br />
+領域④：テスト密度16以上，欠陥密度0.08未満</p>
+<p>ア　欠陥密度は基準を満たしているが，システムの品質に問題がないか，欠陥の妥当性を確認する。<br />
+イ　システムの欠陥が多いので，検出した欠陥の原因を分析した上で，システムの品質改善に取り組む。<br />
+ウ　システムの欠陥を十分に検出できていない懸念があるので，テストの観点に漏れがないかなど，テストケースの妥当性を確認する。<br />
+エ　テスト密度が不足しているので，システムの規模に見合うテストケース数以上となるように，テストケースを追加する。</p></div>
+  </div>
+
+  <div class="card"><h2 class="section-title">参照画像</h2><div class="md-content"><p><img alt="図54" src="ap_2025_spring_am_q54.png" /></p>
+<!-- 画像がある場合: ![図1](images/2025a_q54_fig1.jpg) --></div></div>
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：システムの欠陥を十分に検出できていない懸念があるので，テストの観点に漏れがないかなど，テストケースの妥当性を確認する。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">欠陥密度は基準を満たしているので妥当性を確認する</td>
+<td style="text-align: left;">領域④は欠陥密度が基準値（0.1）の80%である0.08を下回る範囲であり、「基準を満たしている」という前提が誤り。欠陥密度は基準の下限を下回っている状態である</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">システムの欠陥が多いので原因分析する</td>
+<td style="text-align: left;">領域④は欠陥密度が<strong>低すぎる</strong>（基準の下限未満の）領域であり、「欠陥が多い」という記述は実態と逆である。欠陥が多い状態は領域②（欠陥密度が基準の120%以上）に該当する</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>欠陥を十分に検出できていない懸念があるので，テストケースの妥当性を確認する</strong></td>
+<td style="text-align: left;"><strong>正解。領域④はテスト密度が基準（16件/KLOC）を満たしているにもかかわらず，欠陥密度が基準の下限（0.08件/KLOC）を下回っている。これは，テストの量は十分実施されているように見えても，テストケースが見当違いであったり，特定の観点に偏っていたりして，本来検出されるべき欠陥を見逃している可能性を示唆する。そのため，テストの観点に漏れがないか，テストケースの内容が妥当かを確認する必要がある</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">テスト密度が不足しているのでテストケースを追加する</td>
+<td style="text-align: left;">領域④はテスト密度が基準値の80%（16件/KLOC）以上を満たす範囲であり、「テスト密度が不足している」という前提が誤り。テスト密度が不足している状態は領域①に該当する</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文と図・表のキーワードを整理する。</li>
+<li>テスト密度の基準値は20件/KLOC、欠陥密度の基準値は0.1件/KLOCであり、品質管理基準は「テスト密度は基準値の80%以上」「欠陥密度は基準値の80%以上120%未満」と定められている。</li>
+<li>基準値から実際の判定ライン（閾値）を計算する。</li>
+<li>テスト密度の下限：20×0.8＝16（件/KLOC）→ 図の横軸の境界線16と一致。</li>
+<li>欠陥密度の下限：0.1×0.8＝0.08（件/KLOC）→ 図の縦軸の境界線0.08と一致。</li>
+<li>欠陥密度の上限：0.1×1.2＝0.12（件/KLOC）→ 図の縦軸の境界線0.12と一致。</li>
+<li>領域④の位置づけを確認する。</li>
+<li>図より、領域④はテスト密度が16以上（基準を満たしている）、かつ欠陥密度が0.08未満（基準の下限を下回る）の範囲である。すなわち「テストは基準量以上実施しているが、検出された欠陥が基準より少なすぎる」という状態を表す。</li>
+<li>この状態が意味することを評価する。</li>
+<li>一般に、テスト密度が十分であるにもかかわらず欠陥密度が極端に低い場合、品質が本当に良いとは限らず、テストケースが本質的な不具合を検出できていない（見当違いのテストをしている、テスト観点に偏りや漏れがある）可能性が疑われる。そのため、検出された欠陥数の少なさを鵜呑みにせず、テストケースの内容そのものの妥当性・網羅性を確認する活動が必要となる。</li>
+<li>各選択肢を、領域④の正しい状態認識（テスト密度は基準クリア、欠陥密度は基準未満）と照合する。</li>
+<li>ア・エは前提条件（基準を満たしている／不足している対象）の認識が領域④の実態と異なる。</li>
+<li>イは欠陥密度の多寡の認識が逆になっている。</li>
+<li>ウは「テストは十分行っているのに欠陥が十分検出できていない懸念がある」という領域④の状態を正しく捉え、対応として「テスト観点の漏れやテストケースの妥当性の確認」という適切な活動を提示している。</li>
+<li>以上より、領域④の品質管理基準上の評価として最も適切な<strong>ウ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q53.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q55.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>

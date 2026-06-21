@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>問69 - 2024年秋期 応用情報技術者試験</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  line-height: 1.7;
+}
+
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 { font-size: 1rem; font-weight: 700; flex: 1; }
+header a { color: #aed6f1; font-size: 0.85rem; }
+
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* 問題メタ情報 */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.tag {
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.tag.cat { background: #fdebd0; color: #7d4e00; }
+
+h2.section-title {
+  font-size: 1rem;
+  color: #1a3a5c;
+  border-left: 4px solid #1a3a5c;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
+/* Markdown 内コンテンツ */
+.md-content p { margin-bottom: 0.8em; }
+.md-content ul, .md-content ol { padding-left: 1.4em; margin-bottom: 0.8em; }
+.md-content li { margin-bottom: 0.3em; }
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  display: block;
+}
+.md-content th, .md-content td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-content th { background: #f0f4f8; }
+.md-content code {
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.md-content pre {
+  background: #f6f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.md-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+/* 解答セクション */
+.answer-section { display: none; }
+.answer-section.visible { display: block; }
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background .15s;
+}
+.btn-reveal {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-reveal:hover { background: #254d7a; }
+.btn-hide {
+  background: #e0e0e0;
+  color: #555;
+  width: 100%;
+  margin: 8px 0;
+}
+.btn-hide:hover { background: #d0d0d0; }
+
+/* ナビゲーション */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+.nav-btn:hover { background: #e8f0fe; text-decoration: none; }
+.nav-btn.disabled { color: #aaa; border-color: #e0e0e0; pointer-events: none; }
+
+/* 一覧ページ */
+.exam-group { margin-bottom: 24px; }
+.exam-group h2 {
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+}
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: #ccc;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+.question-item {
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  transition: background .1s;
+}
+.question-item:hover { background: #e8f0fe; }
+.question-item a { display: block; color: #222; }
+.question-item .q-no { font-weight: 700; color: #1a3a5c; }
+.question-item .q-sub { color: #666; font-size: 0.8rem; margin-top: 2px; }
+
+@media (max-width: 600px) {
+  .card { padding: 14px 16px; }
+  .question-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>応用情報技術者試験 2024年秋期 問69</h1>
+  <a href="../../index.html">← 一覧に戻る</a>
+</header>
+<div class="container">
+
+  <div class="card">
+    <div class="meta-row">
+      <span class="tag cat">ストラテジ系</span>
+      <span class="tag">経営戦略マネジメント（経営戦略手法）</span>
+      <span class="tag">コ・クリエーション戦略</span><span class="tag">顧客経験</span><span class="tag">クローズ戦略</span><span class="tag">M&A戦略</span><span class="tag">OEM</span>
+    </div>
+    <h2 class="section-title">問題文</h2>
+    <div class="md-content"><p>コ・クリエーション戦略の特徴はどれか。</p>
+<p>ア　企業の営業部門と製造部門が協働し，特定の商品・サービスに限定して徹底的に自前主義にこだわることによって強みを発揮する。<br />
+イ　顧客が自らのアイデアを商品の仕様に具体的に落とし込み，企業に製品を製造してもらう。<br />
+ウ　顧客や企業ネットワークの力を活用し商品・サービスだけでなく，顧客の経験までを含めて差別化可能な価値を創造する。<br />
+エ　自社に不足する経営資源をM&amp;Aによって強化し，従来にない価値をより素早く創造する。</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <button class="btn btn-reveal" id="btn-reveal" onclick="toggleAnswer(true)">答えを見る</button>
+    <button class="btn btn-hide"   id="btn-hide"   onclick="toggleAnswer(false)" style="display:none">答えを隠す</button>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">正解</h2>
+      <div class="md-content"><p><strong>ウ</strong>：顧客や企業ネットワークの力を活用し商品・サービスだけでなく，顧客の経験までを含めて差別化可能な価値を創造する。</p></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">選択肢補足</h2>
+      <div class="md-content"><table>
+<thead>
+<tr>
+<th style="text-align: left;">選択肢</th>
+<th style="text-align: left;">内容</th>
+<th style="text-align: left;">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ア</td>
+<td style="text-align: left;">自前主義による強みの発揮</td>
+<td style="text-align: left;">これは「クローズ戦略」の特徴の説明である。コ・クリエーション戦略は自前主義にこだわるのではなく、外部のパートナー（顧客や他企業）との協働によって価値を創造する点に特徴があり、本記述とは逆の考え方である</td>
+</tr>
+<tr>
+<td style="text-align: left;">イ</td>
+<td style="text-align: left;">顧客のアイデアを仕様に落とし込み企業が製造</td>
+<td style="text-align: left;">これはオーダーメイドやOEM（相手先ブランドによる生産）の特徴に近い説明である。顧客が製品開発に積極的に関与する点はコ・クリエーション戦略とも重なるが、製品開発・仕様決定の主体が顧客側にあるという記述は、コ・クリエーション戦略の本質的な特徴（顧客と企業が共に価値を創造すること）とは異なる</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ウ</strong></td>
+<td style="text-align: left;"><strong>顧客・企業ネットワークを活用した顧客の経験を含む価値創造</strong></td>
+<td style="text-align: left;"><strong>正解。コ・クリエーション戦略は、顧客や企業ネットワークが持つアイデア・ノウハウ・口コミなどの力を活用し、単に商品・サービスそのものだけでなく、顧客がその開発・利用の過程で得る「経験（Customer Experience）」までを含めて、他社と差別化できる新たな価値を創造する戦略である</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">エ</td>
+<td style="text-align: left;">M&amp;Aによる経営資源の強化</td>
+<td style="text-align: left;">これは「M&amp;A戦略」の特徴の説明である。M&amp;Aは企業の合併・買収によって他社の経営資源を自社のものとして所有することを目的とする行為であり、顧客や企業との協働による価値創造を重視するコ・クリエーション戦略とは異なるアプローチである</td>
+</tr>
+</tbody>
+</table></div>
+    </div>
+
+    <div class="answer-section">
+      <h2 class="section-title" style="margin-top:16px">解き方</h2>
+      <div class="md-content"><ol>
+<li>問題文のキーワードを整理する。</li>
+<li>「コ・クリエーション戦略」の特徴として適切なものを選ぶ。</li>
+<li>コ・クリエーション戦略の定義を確認する。</li>
+<li>コ・クリエーション戦略とは、企業が顧客や他の企業とのネットワークの力を活用し、共に新たな価値を創造する差別化戦略である。</li>
+<li>従来の戦略は企業視点で商品・サービスを作り顧客に提供するという考え方であったのに対し、コ・クリエーション戦略では、顧客とともに商品・サービスだけでなく、それを通じて得られる「顧客の経験」までを含めて価値創造を行う点が特徴である。</li>
+<li>自前主義にこだわらず、顧客コミュニティや他企業・NPOなどの外部ネットワークの力も積極的に活用する。</li>
+<li>各選択肢が説明している戦略・手法を特定する。</li>
+<li>ア：徹底した自前主義による強みの発揮 → クローズ戦略の特徴。</li>
+<li>イ：顧客が仕様を決定し企業が製造を担う → オーダーメイド／OEMに近い考え方。</li>
+<li>ウ：顧客・企業ネットワークの力を活用し、商品・サービスに加えて顧客の経験までを含めて価値を創造する → コ・クリエーション戦略の定義そのもの。</li>
+<li>エ：M&amp;Aによる経営資源の獲得・強化 → M&amp;A戦略の特徴。</li>
+<li>「顧客や企業ネットワークの力を活用」「商品・サービスだけでなく、顧客の経験までを含めて」「差別化可能な価値を創造する」という記述が、コ・クリエーション戦略の本質的な特徴（顧客経験を含めた価値創造、外部ネットワークの活用）と完全に一致することを確認する。</li>
+<li>ア・イ・エはいずれも、コ・クリエーション戦略とは異なる別の戦略（クローズ戦略、OEM的な発想、M&amp;A戦略）の特徴であることを確認する。</li>
+<li>以上より、<strong>ウ</strong>を正解と判断する。</li>
+</ol></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="nav-bar">
+      <a href="q68.html" class="nav-btn">← 前の問題</a>
+      <a href="../../index.html" class="nav-btn" style="flex:0.5">一覧</a>
+      <a href="q70.html" class="nav-btn">次の問題 →</a>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleAnswer(show) {
+  document.querySelectorAll('.answer-section').forEach(el => {
+    el.classList.toggle('visible', show);
+  });
+  document.getElementById('btn-reveal').style.display = show ? 'none' : '';
+  document.getElementById('btn-hide').style.display  = show ? '' : 'none';
+}
+</script>
+</body>
+</html>
